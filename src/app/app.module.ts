@@ -22,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Firebase services + environment module
 import { AngularFireModule } from '@angular/fire/compat';
@@ -38,6 +39,8 @@ import { SignInComponent } from './components/authentication/sign-in/sign-in.com
 import { SignUpComponent } from './components/authentication/sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './components/authentication/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/authentication/verify-email/verify-email.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { VerifyEmailComponent } from './components/authentication/verify-email/v
     SignInComponent,
     SignUpComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    ProfileComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +75,8 @@ import { VerifyEmailComponent } from './components/authentication/verify-email/v
     MatInputModule,
     MatMenuModule,
     MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

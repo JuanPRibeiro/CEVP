@@ -1,0 +1,23 @@
+.authBlock{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.formGroup span {
+  position: relative;
+  top: 7px
+}
+
+.btn {
+  background-color: rgb(235, 235, 235);
+  height: 3rem;
+}
+
+.redirect {
+  user-select: none;
+  cursor: pointer;
+  text-decoration: underline;
+}

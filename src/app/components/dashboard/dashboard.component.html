@@ -1,51 +1,81 @@
-<!-- Top navigation -->
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0">
-    <img class="brand-logo" src="assets/logo-positronx-white.svg" alt="positronX.io Logo">
-  </a>
-</nav>
-<!-- Sidebar navigation -->
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active">
-              <i class="fas fa-user"></i>User Profile
-            </a>
-          </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>Log out
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="inner-adjust">
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">User Profile</h1>
-        </div>
-        <!-- Show user data when logged in -->
-        <div class="row" *ngIf="authService.userData as user">
-          <div class="col-md-12">
-            <div class="media">
-              <img class="align-self-start mr-5 img-thumbnail rounded-circle" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
-                alt="{{user.displayName}}">
-              <div class="media-body">
-                <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
-                <p>User ID: <strong>{{user.uid}}</strong></p>
-                <p>Email: <strong>{{user.email}}</strong></p>
-                <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+<!--
+  Sidebar movement inputs
+-->
+<input type="checkbox" id="check">
+
+<label for="check">
+  <b id="btn"><span matPrefix class="material-icons">arrow_forward_ios</span></b>
+  <b id="cancel"><span matPrefix class="material-icons">arrow_back_ios</span></b>
+</label>
+
+<div class="sidebar">
+  <ul>
+    <li><a href="#">Participantes</a></li>
+    <li><a href="#">Frequências</a></li>
+    <li><a href="#">Antropometrias</a></li>
+    <li><a href="#">Desempenho TT</a></li>
+    <li><a href="#">Hab. Socioedu.</a></li>
+  </ul>
 </div>
+
+<section>
+  <div class="notifications">
+    <div class="notification initial-data">
+      <h2>Dados cadastrais</h2>
+      <p>Há x participantes com cadastros incompletos</p>
+    </div>
+    
+    <div class="notification frequency">
+      <h2>Aviso de frequência</h2>
+      <p>Há x participantes com questões de frequência</p>
+    </div>
+
+    <div class="notification anthropometry-tt-data">
+      <h2>Antropometrias e Dados TT</h2>
+      <p>Há x participantes para realizar coleta de dados</p>
+    </div>
+  </div>
+
+  <div class="students">
+    <form class="filters">
+      <div class="search">
+        <input type="text" name="studentName" id="studentName">
+        <label for="studentName"><span matPrefix class="material-icons">search</span></label>
+      </div>
+      
+      <button>
+        <span matPrefix class="material-icons">menu</span>
+        Filtros
+      </button>
+    </form>
+    
+    <table class="filteredStudents">
+      <thead>
+        <tr>
+          <th colspan="1" class="name">Nome</th>
+          <th colspan="5">Dados</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">Aluno A</td>
+          <td>
+            <button><span matPrefix class="material-icons">description</span></button>
+          </td>
+          <td>
+            <button><span matPrefix class="material-icons">date_range</span></button>
+          </td>
+          <td>
+            <button><span matPrefix class="material-icons">straighten</span></button>
+          </td>
+          <td>
+            <button><span matPrefix class="material-icons">trending_up</span></button>
+          </td>
+          <td>
+            <button><span matPrefix class="material-icons">diversity_3</span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> 
+</section>

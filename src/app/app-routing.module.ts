@@ -6,17 +6,22 @@ import {
   SignUpComponent,
   ForgotPasswordComponent,
   VerifyEmailComponent,
-  DashboardComponent
+  DashboardComponent,
+  ProfileComponent
 } from './components'
 
 import { AuthGuard } from './shared/guard/auth.guard';
+import { HeaderComponent } from './components/header/header.component';
 
 const routes: Routes = [
+  //Default
   { 
     path: '', 
-    redirectTo: '/sign-in', 
+    redirectTo: '/header/dashboard', 
     pathMatch: 'full' 
   },
+
+  //Authentication
   { 
     path: 'sign-in', 
     component: SignInComponent 
@@ -33,11 +38,24 @@ const routes: Routes = [
     path: 'verify-email-address', 
     component: VerifyEmailComponent 
   },
-  { 
-    path: 'dashboard', 
-    component: DashboardComponent,
-    canActivate: [AuthGuard]
-  },
+
+  //Authenticated
+  {
+    path: 'header',
+    component: HeaderComponent,
+    children: [
+      { 
+        path: 'dashboard', 
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
+      },
+    ]
+  }
 ];
 
 @NgModule({

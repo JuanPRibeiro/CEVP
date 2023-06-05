@@ -1,0 +1,25 @@
+<header class="top">
+  <div class="title">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/header/dashboard">
+      <img class="brand-logo" src="assets/CEVP_oficial.png" width="85px" alt="CEVP Logo">
+    </a>
+  </div>
+
+  <div class="userData">
+    <div class="info">
+      <a href="/header/profile">
+        <img class="mr-5 img-thumbnail rounded-circle" width="45px"
+        src="{{(userData.photoURL) ? userData.photoURL : '/assets/dummy-user.png'}}"
+        alt="{{userData.displayName}}">
+      </a>
+      <p>{{userData.displayName}}</p>
+    </div>
+    <!-- Calling SignOut() Api from AuthService -->
+    <a class="logout" (click)="authService.SignOut()">
+      <span matPrefix class="material-icons">logout</span>
+      Log out
+    </a>
+  </div>
+</header>
+
+<router-outlet></router-outlet>

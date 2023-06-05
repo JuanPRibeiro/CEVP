@@ -2,52 +2,31 @@
   <div class="displayTableCell">
     <div class="authBlock">
       <h3>Sign Up</h3>
+
       <div class="formGroup">
-        <input
-          type="email"
-          class="formControl"
-          placeholder="Email Address"
-          #userEmail
-          required
-        />
+        <input type="email" class="formControl" placeholder="E-mail" #userEmail required />
       </div>
+
       <div class="formGroup">
-        <input
-          type="password"
-          class="formControl"
-          placeholder="Password"
-          #userPwd
-          required
-        />
+        <input type="password" class="formControl" placeholder="Senha" #userPwd required />
       </div>
+
       <div class="formGroup">
-        <input
-          type="button"
-          class="btn btnPrimary"
-          value="Sign Up"
-          (click)="authService.SignUp(userEmail.value, userPwd.value)"
-        />
+        <input type="button" class="btn btnPrimary" value="Cadastrar-se"
+          (click)="authService.SignUp(userEmail.value, userPwd.value)" />
+          
+          <span class="or"><span class="orInner"> Ou </span></span>
+
+          <!-- Continue with Google -->
+          <button type="button" class="btn googleBtn" (click)="authService.GoogleAuth()">
+            <img src="https://img.icons8.com/color/16/000000/google-logo.png">
+            Continue with Google
+          </button>
       </div>
-      <div class="formGroup">
-        <span class="or"><span class="orInner">Or</span></span>
+      
+      <div class="redirectToLogin">
+        <span>Já possui uma conta? <span class="redirect" routerLink="/sign-in">Login</span></span>
       </div>
-      <!-- Continue with Google -->
-      <div class="formGroup">
-        <button
-          type="button"
-          class="btn googleBtn"
-          (click)="authService.GoogleAuth()"
-        >
-          <i class="fab fa-google-plus-g"></i>
-          Continue with Google
-        </button>
-      </div>
-    </div>
-    <div class="redirectToLogin">
-      <span
-        >Already have an account?
-        <span class="redirect" routerLink="/sign-in">Log In</span></span
-      >
     </div>
   </div>
 </div>
