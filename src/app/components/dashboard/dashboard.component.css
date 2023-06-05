@@ -198,4 +198,5 @@ section{
 
 .filteredStudents button {
   margin-top: .25rem;
+  border-radius: 1rem;
 }

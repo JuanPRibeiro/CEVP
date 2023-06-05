@@ -1,0 +1,39 @@
+h1 {
+  width: 100%;
+  text-align: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-items: center;
+}
+
+.profileData {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.inputs div {
+  display: flex;
+  flex-direction: column;
+  margin: .2rem 1rem;
+}
+
+button {
+  display: flex;
+  flex-direction: row;
+  border-radius: 1.5rem;
+  justify-content: center;
+  padding: .5rem;
+  margin: 1rem;
+}
+
+button span {
+  position: relative;
+  bottom: .2rem
+}
+

@@ -1,25 +1,32 @@
-<div>
-  <div>
-    <h1>Perfil</h1>
-  </div>
+<div class="profile">
+  <h1>Perfil</h1>
   <!-- Show user data when logged in -->
-  <div class="row" *ngIf="authService.userData as user">
-    <div>
+  <div class="profileData" *ngIf="authService.userData as user">
+    <label for="inputField">
+      <img class="mr-5 img-thumbnail rounded-circle profileImg" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
+      alt="{{user.displayName}}" width="120px">
+    </label>
+    <input id="inputField" type="file" ngModel name="photoURL" accept=".png,.jpg" (change)="previewImage($event)" hidden>
+    
+    <p>
+      <strong>Email: </strong>{{user.email}}
+    </p>
+
+    <div class="inputs">
       <div>
-        <img class="align-self-start mr-5 img-thumbnail rounded-circle" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
-          alt="{{user.displayName}}">
-        <div>
-          <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
-          <p>User ID: <strong>{{user.uid}}</strong></p>
-          <p>Email: <strong>{{user.email}}</strong></p>
-          <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
-        </div>
+        <label for="name"><strong>Nome</strong></label>
+        <input type="text" #name id="name" value="{{(user.displayName) ? user.displayName : 'User'}}">
       </div>
     </div>
-  </div>
 
-  <!-- Calling SignOut() Api from AuthService -->
-  <a class="nav-link" (click)="authService.SignOut()">
-    <i class="fas fa-sign-out-alt"></i>Log out
-  </a>
+    <p *ngIf="!user.emailVerified">
+      <strong>"Email não verificado..."</strong>
+    </p>
+
+    <p>
+      <button (click)="updateUserData(name.value)">
+        Salvar <span matPrefix class="material-icons">upgrade</span>
+      </button>
+    </p>
+  </div>
 </div>
