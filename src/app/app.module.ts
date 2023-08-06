@@ -41,6 +41,8 @@ import { ForgotPasswordComponent } from './components/authentication/forgot-pass
 import { VerifyEmailComponent } from './components/authentication/verify-email/verify-email.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HeaderComponent } from './components/header/header.component';
+import { StudentsComponent } from './components/students/students.component';
+import { CreateStudentDLGComponent } from './components/students/dialogs/create-student-dlg/create-student-dlg.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { HeaderComponent } from './components/header/header.component';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     ProfileComponent,
-    HeaderComponent
+    HeaderComponent,
+    StudentsComponent,
+    CreateStudentDLGComponent
   ],
   imports: [
     BrowserModule,

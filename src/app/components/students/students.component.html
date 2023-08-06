@@ -1,0 +1,52 @@
+<!--Sidebar movement inputs-->
+<input type="checkbox" id="check">
+
+<label for="check">
+  <b id="btn"><span matPrefix class="material-icons">arrow_forward_ios</span></b>
+  <b id="cancel"><span matPrefix class="material-icons">arrow_back_ios</span></b>
+</label>
+
+<!--Sidebar-->
+<div class="sidebar">
+  <ul>
+    <li><a href="#">Participantes</a></li>
+    <li><a href="#">Frequências</a></li>
+    <li><a href="#">Antropometrias</a></li>
+    <li><a href="#">Desempenho TT</a></li>
+    <li><a href="#">Hab. Socioedu.</a></li>
+  </ul>
+</div>
+
+<!--Main content-->
+<section>
+  <div class="students">
+    <form class="filters">
+      <div class="search">
+        <input type="text" name="studentName" id="studentName">
+        <label for="studentName"><span matPrefix class="material-icons">search</span></label>
+      </div>
+      <button (click)="openDialogCreateStudent()">Novo Participante</button>
+    </form>
+    
+    <table class="filteredStudents">
+      <thead>
+        <tr>
+          <th class="name">Nome</th>
+          <th>Data de Nascimento</th>
+          <th>Turma</th>
+          <th>Detalhar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of this.students; index as i">
+          <td class="name">{{student.name}}</td>
+          <td>{{student.birthdate.getDate()}}/{{student.birthdate.getMonth()+1}}/{{student.birthdate.getFullYear()}}</td>
+          <td>{{student.class}}</td>
+          <td>
+            <button><a href="header/student?id={{student.id}}"><span matPrefix class="material-icons">description</span></a></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> 
+</section>
