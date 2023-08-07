@@ -1,0 +1,38 @@
+<section>
+  <h2>Controle de Frequência</h2>
+
+  <div class="filters">
+    <div>
+      <p>Turma</p>
+      <select name="class" id="class">
+        <option value="Manhã">Manhã</option>
+        <option value="Tarde">Tarde</option>
+      </select>
+    </div>
+
+    <div>
+      <p>Mês</p>
+      <input type="month" name="month" id="month">
+    </div>
+
+    <div>
+      <label for="add"><span matPrefix class="material-icons">add</span></label>
+      <button type="button" id="add" (click)="openDialogCreateLesson()">Add Aula</button>
+    </div>
+  </div>
+
+  <div class="lessons">
+    <div *ngFor="let lesson of lessons">
+      <input type="radio" name="lessonDate" id="{{lesson.id}}" value="{{lesson.date}}" checked="{{selectedLesson.date==lesson.date}}" (change)="selectDate()" hidden>
+      <label for="{{lesson.id}}" class="dates" [class.selectedDate]="selectedLesson.date==lesson.date">
+        <b>{{lesson.date.getDate()}}/{{lesson.date.getMonth()+1}}</b>
+      </label>
+    </div>
+  </div>
+
+  <div class="selectedLesson">
+    <div *ngFor="let student of students" class="student" [class.absent]="!student.attendance">
+      <b>{{student.name}}</b>
+    </div>
+  </div>
+</section>

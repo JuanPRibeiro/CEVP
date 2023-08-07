@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, getFirestore, query, getDocs } from 'firebase/firestore'
 import { Router } from '@angular/router';
-
 import { MatDialog } from '@angular/material/dialog';
 import { CreateStudentDLGComponent } from './dialogs/create-student-dlg/create-student-dlg.component';
+import { StudentService } from 'src/app/shared/services/student.service';
 
 @Component({
   selector: 'app-students',
@@ -17,7 +17,8 @@ export class StudentsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private studentService: StudentService
   ) { }
 
   ngOnInit(): void {
@@ -26,26 +27,14 @@ export class StudentsComponent implements OnInit {
   }
 
   async getStudents() {
-    this.students = [];
-    const q = query(collection(this.db, 'students'));
+    this.students = await this.studentService.getAllStudents();
 
-    await getDocs(q).then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        this.students.push({
-          id: doc.id,
-          name: doc.data()['name'],
-          birthdate: new Date(doc.data()['birthdate'].seconds * 1000),
-          class: doc.data()['class'],
-          schoolId: doc.data()['schoolId']
-        });
-      });
-      const now = new Date();
-      now.toISOString()
-      this.showFilteredStudents()
-    });
+    const now = new Date();
+    now.toISOString()
+    this.showFilteredStudents()
   }
 
-  async getSchools(){
+  async getSchools() {
     this.schools = [];
     const q = query(collection(this.db, 'schools'));
 
@@ -64,7 +53,7 @@ export class StudentsComponent implements OnInit {
     });
   }
 
-  showFilteredStudents(){
+  showFilteredStudents() {
 
   }
 

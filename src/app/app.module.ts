@@ -43,6 +43,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StudentsComponent } from './components/students/students.component';
 import { CreateStudentDLGComponent } from './components/students/dialogs/create-student-dlg/create-student-dlg.component';
+import { FrequencyComponent } from './components/frequency/frequency.component';
+import { CreateLessonDlgComponent } from './components/frequency/dialogs/create-lesson-dlg/create-lesson-dlg.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { CreateStudentDLGComponent } from './components/students/dialogs/create-
     ProfileComponent,
     HeaderComponent,
     StudentsComponent,
-    CreateStudentDLGComponent
+    CreateStudentDLGComponent,
+    FrequencyComponent,
+    CreateLessonDlgComponent
   ],
   imports: [
     BrowserModule,

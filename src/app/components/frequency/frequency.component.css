@@ -1,0 +1,52 @@
+section {
+  margin: 1rem
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.lessons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: .5rem .5rem .5rem 0;
+  position: relative;
+  top: 1rem
+}
+
+.dates {
+  padding: .5rem 1rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.selectedDate {
+  background-color: #fff3bd;
+}
+
+.selectedLesson {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: #fff3bd;
+  height: 100%;
+}
+
+.student {
+  display: block;
+  width: 200px;
+  background-color: var(--warning-green);
+  border: 1px solid var(--warning-green);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: .5rem .5rem .5rem 0;
+}
+
+.absent {
+  border-color: var(--warning-red) !important;
+  background-color: var(--warning-red) !important;
+}

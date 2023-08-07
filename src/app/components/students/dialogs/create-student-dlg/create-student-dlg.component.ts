@@ -8,6 +8,7 @@ import { getDoc, doc, addDoc, collection, getFirestore } from "firebase/firestor
   styleUrls: ['./create-student-dlg.component.css']
 })
 export class CreateStudentDLGComponent implements OnInit {
+  private db = getFirestore();
   protected schools: any[];
 
   constructor(
@@ -26,7 +27,6 @@ export class CreateStudentDLGComponent implements OnInit {
   }
 
   async createStudent() {
-    const db = getFirestore();
     const name = document.querySelector('#name') as HTMLInputElement;
     const birthdate = document.querySelector('#birthdate') as HTMLInputElement;
     const studentClass = document.querySelector('#class') as HTMLSelectElement;
@@ -35,7 +35,7 @@ export class CreateStudentDLGComponent implements OnInit {
 
     processedDate.setDate(processedDate.getDate()+1);
 
-    await addDoc(collection(db, "students"), {
+    await addDoc(collection(this.db, "students"), {
       name: name.value,
       birthdate: processedDate,
       class: studentClass.value,

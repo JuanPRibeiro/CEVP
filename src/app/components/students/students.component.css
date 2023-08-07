@@ -97,9 +97,6 @@ label #cancel {
   padding: .5rem 0 0 1rem;
 }
 
-/*
-  Main section
-*/
 section {
   display: flex;
   flex-direction: row;
@@ -109,6 +106,9 @@ section {
   padding: 2rem 0 0 2rem;
   transition: all .4s;
 }
+/*
+  Main section
+*/
 
 .students {
   display: flex;

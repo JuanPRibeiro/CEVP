@@ -8,7 +8,8 @@ import {
   VerifyEmailComponent,
   DashboardComponent,
   ProfileComponent,
-  StudentsComponent
+  StudentsComponent,
+  FrequencyComponent
 } from './components'
 
 import { AuthGuard } from './shared/guard/auth.guard';
@@ -58,6 +59,11 @@ const routes: Routes = [
       {
         path: 'students',
         component: StudentsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'frequency',
+        component: FrequencyComponent,
         canActivate: [AuthGuard]
       },
     ]
