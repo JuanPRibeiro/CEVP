@@ -29,7 +29,7 @@ export class CreateLessonDlgComponent implements OnInit {
 
   async createLesson() {
     const date = document.querySelector('#date') as HTMLInputElement;
-    const studentsClass = document.querySelector('#class') as HTMLSelectElement;
+    let studentsClass = document.querySelector('#newClass') as HTMLSelectElement;
 
     let processedDate = new Date(date.value);
 

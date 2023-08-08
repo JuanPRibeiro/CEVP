@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateLessonDlgComponent } from './dialogs/create-lesson-dlg/create-lesson-dlg.component';
-import { collection, getDoc, doc, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDoc, doc, getDocs, getFirestore, orderBy, query, where, updateDoc } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { DocumentData } from '@angular/fire/compat/firestore';
+import { findIndex } from 'rxjs';
 
 @Component({
   selector: 'app-frequency',
@@ -15,6 +16,7 @@ export class FrequencyComponent implements OnInit {
   protected lessons: DocumentData[] = [];
   protected selectedLesson:DocumentData;
   protected students: DocumentData[] = [];
+  private changedStudents: number[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -28,8 +30,13 @@ export class FrequencyComponent implements OnInit {
   }
 
   async getLessons(){
+    this.lessons = [];
+
+    const studentsClass = document.querySelector('#class') as HTMLSelectElement;
+
     const q = query(
       collection(this.db, 'lessons'),
+      where('class', '==', studentsClass.value),
       orderBy('date')
     );
 
@@ -47,6 +54,11 @@ export class FrequencyComponent implements OnInit {
   }
 
   async getStudentsFrequency(lesson: DocumentData) {
+    this.students = [];
+    this.changedStudents = [];
+
+    if(lesson === undefined) return;
+    
     const q = query(
       collection(this.db, 'frequencies'),
       where('lessonId', '==', lesson.id),
@@ -74,7 +86,35 @@ export class FrequencyComponent implements OnInit {
     });
   }
 
-  selectDate() {
-    
+  changeClass() {
+    this.getLessons().then(() => {
+      this.getStudentsFrequency(this.selectedLesson);
+    });
+  }
+
+  changeDate(lessonIndex: number) {
+    this.selectedLesson = this.lessons[lessonIndex];
+
+    this.getStudentsFrequency(this.selectedLesson);
+  }
+
+  changeAttendance(studentIndex: number) {
+    this.students[studentIndex].attendance = !this.students[studentIndex].attendance;
+
+    //Salvando os estudantes alterados p/ alterar no banco apenas os necessários
+    if(this.changedStudents.find((index) => index == studentIndex) === undefined){
+      this.changedStudents.push(studentIndex);
+    } else {
+      this.changedStudents.splice(studentIndex, 1);
+    }
+  }
+
+  saveFrequency(){
+    this.changedStudents.forEach((index) => {
+      updateDoc(doc(this.db, 'frequencies', this.students[index].freqId), {
+        attendance: this.students[index].attendance
+      });
+    })
+    alert('Lista Salva!');
   }
 }

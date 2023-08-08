@@ -4,7 +4,7 @@
   <div class="filters">
     <div>
       <p>Turma</p>
-      <select name="class" id="class">
+      <select name="class" id="class" (change)="changeClass()">
         <option value="Manhã">Manhã</option>
         <option value="Tarde">Tarde</option>
       </select>
@@ -22,8 +22,8 @@
   </div>
 
   <div class="lessons">
-    <div *ngFor="let lesson of lessons">
-      <input type="radio" name="lessonDate" id="{{lesson.id}}" value="{{lesson.date}}" checked="{{selectedLesson.date==lesson.date}}" (change)="selectDate()" hidden>
+    <div *ngFor="let lesson of lessons; index as i">
+      <input type="radio" name="lessonDate" id="{{lesson.id}}" value="{{lesson.date}}" (change)="changeDate(i)" hidden>
       <label for="{{lesson.id}}" class="dates" [class.selectedDate]="selectedLesson.date==lesson.date">
         <b>{{lesson.date.getDate()}}/{{lesson.date.getMonth()+1}}</b>
       </label>
@@ -31,8 +31,13 @@
   </div>
 
   <div class="selectedLesson">
-    <div *ngFor="let student of students" class="student" [class.absent]="!student.attendance">
-      <b>{{student.name}}</b>
+    <div *ngFor="let student of students; index as i" class="student" [class.absent]="!student.attendance">
+      <input type="checkbox" name="{{student.name}}" id="{{student.freqId}}" checked="{{student.attendance}}" (change)="changeAttendance(i)" hidden>
+      <label for="{{student.freqId}}">
+        <b>{{student.name}}</b>
+      </label>
     </div>
+
+    <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
   </div>
 </section>

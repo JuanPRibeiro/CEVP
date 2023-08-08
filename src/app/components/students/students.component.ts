@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { collection, getFirestore, query, getDocs } from 'firebase/firestore'
+import { collection, getFirestore, query, getDocs, orderBy } from 'firebase/firestore'
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateStudentDLGComponent } from './dialogs/create-student-dlg/create-student-dlg.component';
@@ -36,7 +36,10 @@ export class StudentsComponent implements OnInit {
 
   async getSchools() {
     this.schools = [];
-    const q = query(collection(this.db, 'schools'));
+    const q = query(
+      collection(this.db, 'schools'),
+      orderBy('name')  
+    );
 
     await getDocs(q).then(querySnapshot => {
       querySnapshot.forEach(doc => {
