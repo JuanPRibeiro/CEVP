@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DocumentData } from '@angular/fire/compat/firestore';
 import { collection, getFirestore, query, getDocs, orderBy, where } from 'firebase/firestore'
+import { groupBy } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class StudentService {
     
     const q = query(
       collection(this.db, 'students'),
+      orderBy('class'),
       orderBy('name')
     );
 
@@ -22,9 +24,15 @@ export class StudentService {
       querySnapshot.forEach(doc => {
         this.students.push({
           id: doc.id,
-          name: doc.data()['name'],
-          birthdate: new Date(doc.data()['birthdate'].seconds * 1000),
+          authorization: doc.data()['authorization'],
+          birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
+          contact: doc.data()['contact'],
+          gender: doc.data()['gender'],
+          name: doc.data()['name'],
+          parent: doc.data()['parent'],
+          parentContact: doc.data()['parentContact'],
+          parentName: doc.data()['parentName'],
           schoolId: doc.data()['schoolId']
         });
       });
@@ -45,9 +53,15 @@ export class StudentService {
       querySnapshot.forEach(doc => {
         this.students.push({
           id: doc.id,
-          name: doc.data()['name'],
-          birthdate: new Date(doc.data()['birthdate'].seconds * 1000),
+          authorization: doc.data()['authorization'],
+          birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
+          contact: doc.data()['contact'],
+          gender: doc.data()['gender'],
+          name: doc.data()['name'],
+          parent: doc.data()['parent'],
+          parentContact: doc.data()['parentContact'],
+          parentName: doc.data()['parentName'],
           schoolId: doc.data()['schoolId']
         });
       });

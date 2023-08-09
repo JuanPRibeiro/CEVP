@@ -27,21 +27,37 @@ export class CreateStudentDLGComponent implements OnInit {
   }
 
   async createStudent() {
-    const name = document.querySelector('#name') as HTMLInputElement;
+    const authorization = document.querySelector('#authorization') as HTMLSelectElement;
     const birthdate = document.querySelector('#birthdate') as HTMLInputElement;
     const studentClass = document.querySelector('#class') as HTMLSelectElement;
-    const schoolId = document.querySelector('#school') as HTMLSelectElement;
+    const contact = document.querySelector('#contact') as HTMLInputElement;
+    const gender = document.querySelector('#gender') as HTMLSelectElement;
+    const name = document.querySelector('#name') as HTMLInputElement;
+    const parent = document.querySelector('#parent') as HTMLInputElement;
+    const parentContact = document.querySelector('#parentContact') as HTMLInputElement;
+    const parentName = document.querySelector('#parentName') as HTMLInputElement;
+    const schoolId = document.querySelector('#schoolId') as HTMLInputElement;
     let processedDate = new Date(birthdate.value);
 
-    processedDate.setDate(processedDate.getDate()+1);
+    processedDate.setDate(processedDate.getDate() + 1);
 
-    await addDoc(collection(this.db, "students"), {
-      name: name.value,
+    await addDoc(collection(this.db, 'students'), {
+      authorization: authorization.value == 'Sim' ? true : false,
       birthdate: processedDate,
       class: studentClass.value,
+      contact: contact.value,
+      gender: gender.value,
+      name: name.value,
+      parent: parent.value,
+      parentContact: parentContact.value,
+      parentName: parentName.value,
       schoolId: schoolId.value
     }).then(() => {
-      window.location.reload();
+      if (confirm('Participante Cadastrado!\nRecarregar os dados?')){
+        window.location.reload();
+      } else {
+        this.dialogRef.close();
+      }
     })
   }
 }

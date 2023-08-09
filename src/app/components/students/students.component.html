@@ -40,10 +40,10 @@
       <tbody>
         <tr *ngFor="let student of this.students; index as i">
           <td class="name">{{student.name}}</td>
-          <td>{{student.birthdate.getDate()}}/{{student.birthdate.getMonth()+1}}/{{student.birthdate.getFullYear()}}</td>
+          <td>{{df.returnData(student.birthdate.getDate())}}/{{df.returnData(student.birthdate.getMonth()+1)}}/{{student.birthdate.getFullYear()}}</td>
           <td>{{student.class}}</td>
           <td>
-            <button><a href="header/student?id={{student.id}}"><span matPrefix class="material-icons">description</span></a></button>
+            <button type="button" (click)="redirectToStudentData(student)"><span matPrefix class="material-icons">description</span></button>
           </td>
         </tr>
       </tbody>

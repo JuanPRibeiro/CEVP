@@ -1,7 +1,3 @@
-section {
-  margin: 1rem
-}
-
 .filters {
   display: flex;
   flex-direction: row;
@@ -32,14 +28,21 @@ section {
 
 .selectedLesson {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   background-color: #fff3bd;
-  height: 100%;
+}
+
+button {
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+  border-radius: 12px;
+  width: 8rem;
 }
 
 .student {
-  display: block;
+  display: flex;
   width: 200px;
   background-color: var(--warning-green);
   border: 1px solid var(--warning-green);
@@ -48,6 +51,8 @@ section {
 }
 
 .student label {
+  align-self: center;
+  text-align: center;
   width: 100%;
   padding: 1rem 0;
   margin: 0;

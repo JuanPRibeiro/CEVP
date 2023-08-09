@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateStudentDLGComponent } from './dialogs/create-student-dlg/create-student-dlg.component';
 import { StudentService } from 'src/app/shared/services/student.service';
+import * as DateFormat from 'src/app/shared/functions/dateFormat';
 
 @Component({
   selector: 'app-students',
@@ -14,6 +15,7 @@ export class StudentsComponent implements OnInit {
   private db = getFirestore();
   protected students: any[];
   protected schools: any[];
+  protected df: any = DateFormat;
 
   constructor(
     private router: Router,
@@ -31,7 +33,6 @@ export class StudentsComponent implements OnInit {
 
     const now = new Date();
     now.toISOString()
-    this.showFilteredStudents()
   }
 
   async getSchools() {
@@ -53,16 +54,19 @@ export class StudentsComponent implements OnInit {
           contact: doc.data()['contact']
         });
       });
+
+      sessionStorage.setItem('schools', JSON.stringify(this.schools));
     });
   }
 
-  showFilteredStudents() {
-
+  redirectToStudentData(student: Object) {
+    sessionStorage.setItem('student', JSON.stringify(student));
+    this.router.navigate(['header/students/student']);
   }
 
   openDialogCreateStudent(): void {
     const dialogRef = this.dialog.open(CreateStudentDLGComponent, {
-      width: '65%',
+      width: '90%',
       data: {
         schools: this.schools
       }

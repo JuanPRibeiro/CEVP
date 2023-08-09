@@ -1,0 +1,53 @@
+.details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  margin: .5rem .5rem .5rem 0;
+  position: relative;
+  top: 1rem
+}
+
+.selector {
+  padding: .5rem 1rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.selectedData {
+  background-color: #fff3bd;
+}
+
+.selectedDetails {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: #fff3bd;
+  height: 100%;
+  padding: 1rem;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.line div {
+  width: 250px;
+}
+
+.selectedDetails input, 
+.selectedDetails select {
+  width: 250px;
+  margin-bottom: 1rem;
+}
+
+.selectedDetails button {
+  display: block;
+  margin: auto;
+  border-radius: 12px;
+  width: 8rem;
+}

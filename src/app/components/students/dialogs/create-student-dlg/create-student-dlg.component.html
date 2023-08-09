@@ -1,22 +1,72 @@
 <h2>Dados Iniciais</h2>
 
 <div class="form">
-  <p>Nome</p>
-  <input type="text" name="name" id="name">
+  <div class="line">
+    <div>
+      <p>Nome</p>
+      <input type="text" name="name" id="name">
+    </div>
 
-  <p>Data de Nascimento</p>
-  <input type="date" name="birthdate" id="birthdate">
+    <div>
+      <p>Turma</p>
+      <select name="class" id="class">
+        <option value="Manhã">Manhã</option>
+        <option value="Tarde">Tarde</option>
+      </select>
+    </div>
 
-  <p>Turma</p>
-  <select name="class" id="class">
-    <option value="Manhã">Manhã</option>
-    <option value="Tarde">Tarde</option>
-  </select>
+    <div>
+      <p>Data de Nascimento</p>
+      <input type="date" name="birthdate" id="birthdate">
+    </div>
+  </div>
 
-  <p>Escola</p>
-  <select name="school" id="school">
-    <option *ngFor="let school of schools; let i = index" value="{{school.id}}">{{school.name}}</option>
-  </select>
+  <div class="line">
+    <div>
+      <p>Sexo</p>
+      <select name="gender" id="gender">
+        <option value="Feminino">Feminino</option>
+        <option value="Masculino">Masculino</option>
+      </select>
+    </div>
+
+    <div>
+      <p>Contato</p>
+      <input type="text" name="contact" id="contact">
+    </div>
+
+    <div>
+      <p>Escola</p>
+      <select name="schoolId" id="schoolId">
+        <option *ngFor="let school of schools; let i = index" value="{{school.id}}">{{school.name}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="line">
+    <div>
+      <p>Parente</p>
+      <input type="text" name="parent" id="parent">
+    </div>
+
+    <div>
+      <p>Nome do Parente</p>
+      <input type="text" name="parentName" id="parentName">
+    </div>
+
+    <div>
+      <p>Contato do Parente</p>
+      <input type="text" name="parentContact" id="parentContact">
+    </div>
+  </div>
+
+  <div>
+    <p>Entregou Autorização?</p>
+    <select name="authorization" id="authorization">
+      <option value="Não">Não</option>
+      <option value="Sim">Sim</option>
+    </select>
+  </div>
 
   <button type="submit" (click)="createStudent()">Salvar</button>
 </div>

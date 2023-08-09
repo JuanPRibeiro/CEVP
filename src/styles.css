@@ -13,3 +13,115 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 a {
   color: black;
 }
+
+/*
+  Sidebar elements
+*/
+p {
+  text-align: justify;
+  margin-right: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li a {
+  text-decoration: none;
+}
+
+.sidebar {
+  position: fixed;
+  background: var(--darkBlue);
+  color: #fff;
+  top: 0;
+  padding-top: 5rem;
+  width: 200px;
+  left: -200px;
+  height: 100%;
+  z-index: 1;
+  transition: all .4s ease;
+}
+
+.sidebar li a {
+  display: block;
+  height: 100%;
+  width: 100%;
+  line-height: 65px;
+  font-size: 18px;
+  color: #fff;
+  padding-left: 25px;
+  box-sizing: border-box;
+  transition: .4s;
+}
+
+.sidebar li a:hover {
+  padding-left: 40px;
+  box-shadow: 0 0 5px var(--lightBlue);
+}
+
+/*
+  Movement inputs
+*/
+#check {
+  display: none;
+}
+
+label #btn,
+label #cancel {
+  position: fixed;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--darkBlue);
+  border-radius: 3px;
+  top: 50vh;
+  font-size: 35px;
+  color: #fff;
+  padding: 6px 12px;
+  z-index: 100;
+  transition: all .4s ease;
+}
+
+label #btn {
+  left: 0;
+  top: 50vh;
+}
+
+label #cancel {
+  left: -100px;
+  opacity: 0;
+  padding-left: 10px !important;
+  margin-right: 14px !important;
+}
+
+#check:checked~.sidebar {
+  left: 0;
+}
+
+#check:checked~label #btn {
+  left: 200px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#check:checked~label #cancel {
+  left: 200px;
+  opacity: 100;
+}
+
+#check:checked~section {
+  margin-left: 200px;
+  padding: .5rem 0 0 1rem;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  background-position: center;
+  background-size: cover;
+  padding: 2rem 0 0 2rem;
+  margin: 3rem 1rem 0 1.5rem;
+  transition: all .4s;
+}

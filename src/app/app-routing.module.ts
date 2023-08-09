@@ -9,6 +9,7 @@ import {
   DashboardComponent,
   ProfileComponent,
   StudentsComponent,
+  StudentComponent,
   FrequencyComponent
 } from './components'
 
@@ -59,6 +60,11 @@ const routes: Routes = [
       {
         path: 'students',
         component: StudentsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'students/student',
+        component: StudentComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -45,6 +45,7 @@ import { StudentsComponent } from './components/students/students.component';
 import { CreateStudentDLGComponent } from './components/students/dialogs/create-student-dlg/create-student-dlg.component';
 import { FrequencyComponent } from './components/frequency/frequency.component';
 import { CreateLessonDlgComponent } from './components/frequency/dialogs/create-lesson-dlg/create-lesson-dlg.component';
+import { StudentComponent } from './components/students/student/student.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { CreateLessonDlgComponent } from './components/frequency/dialogs/create-
     StudentsComponent,
     CreateStudentDLGComponent,
     FrequencyComponent,
-    CreateLessonDlgComponent
+    CreateLessonDlgComponent,
+    StudentComponent
   ],
   imports: [
     BrowserModule,

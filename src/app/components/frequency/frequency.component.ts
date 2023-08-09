@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateLessonDlgComponent } from './dialogs/create-lesson-dlg/create-lesson-dlg.component';
-import { collection, getDoc, doc, getDocs, getFirestore, orderBy, query, where, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { DocumentData } from '@angular/fire/compat/firestore';
-import { findIndex } from 'rxjs';
+import * as DateFormat from 'src/app/shared/functions/dateFormat'
 
 @Component({
   selector: 'app-frequency',
@@ -13,10 +13,11 @@ import { findIndex } from 'rxjs';
 })
 export class FrequencyComponent implements OnInit {
   private db = getFirestore();
+  private changedStudents: number[] = [];
   protected lessons: DocumentData[] = [];
   protected selectedLesson:DocumentData;
   protected students: DocumentData[] = [];
-  private changedStudents: number[] = [];
+  protected df: any = DateFormat;
 
   constructor(
     private dialog: MatDialog,

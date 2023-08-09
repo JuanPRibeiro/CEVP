@@ -54,7 +54,10 @@ export class CreateLessonDlgComponent implements OnInit {
         })
       })
     }).then(() => {
-      this.dialogRef.close();
+      setTimeout(() => {
+        alert('Aula cadastrada!');
+        this.dialogRef.close();
+      }, 2000);
     });
   }
 }

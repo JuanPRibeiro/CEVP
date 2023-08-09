@@ -1,3 +1,23 @@
+<!--Sidebar movement inputs-->
+<input type="checkbox" id="check">
+
+<label for="check">
+  <b id="btn"><span matPrefix class="material-icons">arrow_forward_ios</span></b>
+  <b id="cancel"><span matPrefix class="material-icons">arrow_back_ios</span></b>
+</label>
+
+<!--Sidebar-->
+<div class="sidebar">
+  <ul>
+    <li><a href="header/students">Participantes</a></li>
+    <li><a href="header/frequency">Frequências</a></li>
+    <li><a href="#">Antropometrias</a></li>
+    <li><a href="#">Desempenho TT</a></li>
+    <li><a href="#">Hab. Socioedu.</a></li>
+  </ul>
+</div>
+
+<!--Main content-->
 <section>
   <h2>Controle de Frequência</h2>
 
@@ -25,7 +45,7 @@
     <div *ngFor="let lesson of lessons; index as i">
       <input type="radio" name="lessonDate" id="{{lesson.id}}" value="{{lesson.date}}" (change)="changeDate(i)" hidden>
       <label for="{{lesson.id}}" class="dates" [class.selectedDate]="selectedLesson.date==lesson.date">
-        <b>{{lesson.date.getDate()}}/{{lesson.date.getMonth()+1}}</b>
+        <b>{{df.returnData(lesson.date.getDate())}}/{{df.returnData(lesson.date.getMonth()+1)}}</b>
       </label>
     </div>
   </div>
@@ -38,6 +58,6 @@
       </label>
     </div>
 
-    <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
   </div>
+  <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
 </section>
