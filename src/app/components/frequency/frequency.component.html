@@ -58,6 +58,13 @@
       </label>
     </div>
 
+    <div *ngIf="nonLinkedStudents.length > 0" class="add student">
+      <select name="addStudent" id="addStudent">
+        <option *ngFor="let student of nonLinkedStudents; index as i" value="{{student.id}}">{{student.name}}</option>
+      </select>
+      <button type="button" (click)="linkStudent()">Add. Participante</button>
+    </div>
+
   </div>
   <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
 </section>

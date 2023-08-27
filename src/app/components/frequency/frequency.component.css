@@ -50,6 +50,16 @@ button {
   margin: .5rem .5rem .5rem 0;
 }
 
+.add {
+  flex-direction: column;
+  background-color: #fff3bd;
+  border: 1px solid #fff3bd;
+}
+
+.add select {
+  margin: 1rem .5rem 0 .5rem;
+}
+
 .student label {
   align-self: center;
   text-align: center;
