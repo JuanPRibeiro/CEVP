@@ -1,0 +1,21 @@
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.delete {
+  background-color: var(--warning-red);
+}
+
+.save {
+  background-color: var(--warning-green);
+}
+
+button {
+  display: block;
+  margin: auto;
+  border-radius: 12px;
+  width: 8rem;
+  margin-top: 1rem;
+}

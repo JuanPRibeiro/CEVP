@@ -1,7 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateLessonDlgComponent } from './dialogs/create-lesson-dlg/create-lesson-dlg.component';
-import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc, addDoc, getDoc } from 'firebase/firestore';
+import { EditLessonDlgComponent } from './dialogs/edit-lesson-dlg/edit-lesson-dlg.component';
+import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc, addDoc } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { DocumentData } from '@angular/fire/compat/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
@@ -29,7 +30,11 @@ export class FrequencyComponent implements OnInit {
   async ngOnInit() {
     this.studentsClass = await this.studentService.getStudentsByClass('Manhã');
     this.getLessons().then(() => {
-      this.getStudentsFrequency(this.selectedLesson.id);
+      if(this.selectedLesson !== undefined) {
+        this.getStudentsFrequency(this.selectedLesson.id);
+      } else {
+        this.students = [];
+      }
     });
   }
 
@@ -102,8 +107,21 @@ export class FrequencyComponent implements OnInit {
       width: '65%',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      window.location.reload();
+    dialogRef.afterClosed().subscribe(reload => {
+      if(reload) window.location.reload();
+    });
+  }
+
+  openDialogEditLesson(lesson: any): void {
+    const dialogRef = this.dialog.open(EditLessonDlgComponent, {
+      width: '65%',
+      data: {
+        lesson: lesson
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(reload => {
+      if(reload) window.location.reload();
     });
   }
 
@@ -112,14 +130,23 @@ export class FrequencyComponent implements OnInit {
 
     this.studentsClass = await this.studentService.getStudentsByClass(studentsClass.value);
     this.getLessons().then(() => {
-      this.getStudentsFrequency(this.selectedLesson.id);
+      if(this.selectedLesson !== undefined) {
+        this.getStudentsFrequency(this.selectedLesson.id);
+      } else {
+        this.students = [];
+      }
     });
   }
 
   changeDate(lessonIndex: number) {
-    this.selectedLesson = this.lessons[lessonIndex];
-
-    this.getStudentsFrequency(this.selectedLesson.id);
+    if(this.selectedLesson == this.lessons[lessonIndex]){
+      //Abrir dialog de edição da aula (mudar data ou excluir)
+      this.openDialogEditLesson(this.selectedLesson);
+    } else {
+      //Buscar alunos da turma selecionada
+      this.selectedLesson = this.lessons[lessonIndex];
+      this.getStudentsFrequency(this.selectedLesson.id);
+    }
   }
 
   changeAttendance(studentIndex: number) {

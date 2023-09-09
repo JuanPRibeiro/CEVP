@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DocumentData } from '@angular/fire/compat/firestore';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DocumentReference, addDoc, collection, getFirestore } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 
@@ -11,11 +11,9 @@ import { StudentService } from 'src/app/shared/services/student.service';
 })
 export class CreateLessonDlgComponent implements OnInit {
   private db = getFirestore();
-  private students: DocumentData[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { },
-    private dialog: MatDialog,
     private dialogRef: MatDialogRef<CreateLessonDlgComponent>,
     private studentService: StudentService
   ) { }
@@ -24,7 +22,7 @@ export class CreateLessonDlgComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   async createLesson() {
@@ -56,7 +54,7 @@ export class CreateLessonDlgComponent implements OnInit {
     }).then(() => {
       setTimeout(() => {
         alert('Aula cadastrada!');
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       }, 2000);
     });
   }

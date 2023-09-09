@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 Imports do Angular Material. Para não importar Modules desnecessários,
 descomentar o import a seguir e nos imports dentro do NgModule abaixo conforme necessário 
 */
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 //import { MatMenuModule } from '@angular/material/menu';
@@ -20,9 +23,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 //import { MatExpansionModule } from '@angular/material/expansion';
 //import { MatGridListModule } from '@angular/material/grid-list';
 //import { MatCheckboxModule } from '@angular/material/checkbox';
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-//import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Firebase services + environment module
 import { AngularFireModule } from '@angular/fire/compat';
@@ -46,6 +46,7 @@ import { CreateStudentDLGComponent } from './components/students/dialogs/create-
 import { FrequencyComponent } from './components/frequency/frequency.component';
 import { CreateLessonDlgComponent } from './components/frequency/dialogs/create-lesson-dlg/create-lesson-dlg.component';
 import { StudentComponent } from './components/students/student/student.component';
+import { EditLessonDlgComponent } from './components/frequency/dialogs/edit-lesson-dlg/edit-lesson-dlg.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { StudentComponent } from './components/students/student/student.componen
     CreateStudentDLGComponent,
     FrequencyComponent,
     CreateLessonDlgComponent,
-    StudentComponent
+    StudentComponent,
+    EditLessonDlgComponent
   ],
   imports: [
     BrowserModule,
@@ -71,10 +73,12 @@ import { StudentComponent } from './components/students/student/student.componen
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    NoopAnimationsModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
     MatIconModule,
-    //NoopAnimationsModule,
-    //BrowserAnimationsModule,
     //MatButtonModule,
     //MatCardModule,
     //MatCheckboxModule,
@@ -85,8 +89,6 @@ import { StudentComponent } from './components/students/student/student.componen
     //MatInputModule,
     //MatMenuModule,
     //MatSelectModule,
-    //FormsModule,
-    //ReactiveFormsModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
