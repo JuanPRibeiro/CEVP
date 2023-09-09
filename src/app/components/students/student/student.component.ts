@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
 
 @Component({
@@ -20,9 +20,9 @@ export class StudentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(sessionStorage.getItem('student') === null || sessionStorage.getItem('schools') === null) {
+    if (sessionStorage.getItem('student') === null || sessionStorage.getItem('schools') === null) {
       this.router.navigate(['header/students']);
-      return
+      return;
     }
     this.student = JSON.parse(sessionStorage.getItem('student'));
     this.schools = JSON.parse(sessionStorage.getItem('schools'));
@@ -34,7 +34,7 @@ export class StudentComponent implements OnInit {
   }
 
   async saveData() {
-    switch(this.selectedData){
+    switch (this.selectedData) {
       case 'initialData':
         const authorization = document.querySelector('#authorization') as HTMLSelectElement;
         const birthdate = document.querySelector('#birthdate') as HTMLInputElement;
@@ -48,10 +48,10 @@ export class StudentComponent implements OnInit {
         const schoolId = document.querySelector('#schoolId') as HTMLInputElement;
         let processedDate = new Date(birthdate.value);
 
-        processedDate.setDate(processedDate.getDate()+1);
+        processedDate.setDate(processedDate.getDate() + 1);
 
         updateDoc(doc(this.db, 'students', this.student.id), {
-          authorization: authorization.value=='Sim' ? true : false,
+          authorization: authorization.value == 'Sim' ? true : false,
           birthdate: processedDate,
           class: studentClass.value,
           contact: contact.value,
@@ -65,6 +65,28 @@ export class StudentComponent implements OnInit {
           alert('Dados Salvos!');
         });
         break;
+    }
+  }
+
+  async deleteStudent() {
+    if (confirm('Deseja realmente excluir o participante?\nA exclusão deleta permanentemente os dados do participante de todas as áreas do sistema...')) {
+      const q = query(
+        collection(this.db, 'frequencies'),
+        where('studentId', '==', this.student.id),
+      );
+
+      //Delete on lessons participation
+      await getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+      })
+
+      //Delete on students table
+      await deleteDoc(doc(this.db, 'students', this.student.id));
+
+      alert('Participante removido.');
+      this.router.navigate(['header/students']);
     }
   }
 }

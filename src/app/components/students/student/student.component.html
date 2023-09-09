@@ -69,7 +69,8 @@
 
       <div>
         <p>Data de Nascimento</p>
-        <input type="date" name="birthdate" id="birthdate" value="{{student.birthdate.getFullYear()}}-{{df.returnData(student.birthdate.getMonth()+1)}}-{{df.returnData(student.birthdate.getDate())}}">
+        <input type="date" name="birthdate" id="birthdate"
+          value="{{student.birthdate.getFullYear()}}-{{df.returnData(student.birthdate.getMonth()+1)}}-{{df.returnData(student.birthdate.getDate())}}">
       </div>
     </div>
 
@@ -98,7 +99,7 @@
         <p>Nome do Parente</p>
         <input type="text" name="parentName" id="parentName" value="{{student.parentName}}">
       </div>
-      
+
       <div>
         <p>Parente</p>
         <input type="text" name="parent" id="parent" value="{{student.parent}}">
@@ -114,7 +115,8 @@
       <div>
         <p>Escola</p>
         <select name="schoolId" id="schoolId">
-          <option *ngFor="let school of schools" value="{{school.id}}" [selected]="school.id == student.schoolId">{{school.name}}</option>
+          <option *ngFor="let school of schools" value="{{school.id}}" [selected]="school.id == student.schoolId">
+            {{school.name}}</option>
         </select>
       </div>
 
@@ -132,6 +134,9 @@
       </div>
     </div>
 
+
     <button type="button" (click)="saveData()">Salvar Alterações</button>
+
+    <button type="button" (click)="deleteStudent()" class="delete"><b>Excluir Participante</b></button>
   </div>
 </section>

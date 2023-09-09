@@ -51,3 +51,9 @@
   border-radius: 12px;
   width: 8rem;
 }
+
+.delete {
+  background-color: var(--warning-red);
+  width: fit-content !important;
+  margin-top: 1rem !important;
+}
