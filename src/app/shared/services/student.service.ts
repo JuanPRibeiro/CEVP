@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DocumentData } from '@angular/fire/compat/firestore';
 import { collection, getFirestore, query, getDocs, orderBy, where } from 'firebase/firestore'
-import { groupBy } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

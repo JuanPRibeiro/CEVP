@@ -8,21 +8,21 @@ import { AppComponent } from './app.component';
 Imports do Angular Material. Para não importar Modules desnecessários,
 descomentar o import a seguir e nos imports dentro do NgModule abaixo conforme necessário 
 */
-import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatSelectModule } from '@angular/material/select';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+//import { MatMenuModule } from '@angular/material/menu';
+//import { MatButtonModule } from '@angular/material/button';
+//import { MatDividerModule } from '@angular/material/divider';
+//import { MatInputModule } from '@angular/material/input';
+//import { MatCardModule } from '@angular/material/card';
+//import { MatChipsModule } from '@angular/material/chips';
+//import { MatSelectModule } from '@angular/material/select';
+//import { MatExpansionModule } from '@angular/material/expansion';
+//import { MatGridListModule } from '@angular/material/grid-list';
+//import { MatCheckboxModule } from '@angular/material/checkbox';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+//import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Firebase services + environment module
 import { AngularFireModule } from '@angular/fire/compat';
@@ -71,22 +71,22 @@ import { StudentComponent } from './components/students/student/student.componen
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    NoopAnimationsModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
     MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
     MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
+    //NoopAnimationsModule,
+    //BrowserAnimationsModule,
+    //MatButtonModule,
+    //MatCardModule,
+    //MatCheckboxModule,
+    //MatChipsModule,
+    //MatDividerModule,
+    //MatExpansionModule,
+    //MatGridListModule,
+    //MatInputModule,
+    //MatMenuModule,
+    //MatSelectModule,
+    //FormsModule,
+    //ReactiveFormsModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
