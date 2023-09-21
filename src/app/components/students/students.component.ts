@@ -29,7 +29,10 @@ export class StudentsComponent implements OnInit {
   }
 
   async getStudents() {
-    this.students = await this.studentService.getAllStudents();
+    const activated = document.querySelector('#activated') as HTMLSelectElement;
+
+    
+    this.students = activated.value == "true" ? await this.studentService.getAllStudents() : await this.studentService.getAllStudents(false);
 
     const now = new Date();
     now.toISOString()

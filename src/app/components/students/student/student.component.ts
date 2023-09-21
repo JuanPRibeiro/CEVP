@@ -68,25 +68,23 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  async deleteStudent() {
-    if (confirm('Deseja realmente excluir o participante?\nA exclusão deleta permanentemente os dados do participante de todas as áreas do sistema...')) {
-      const q = query(
-        collection(this.db, 'frequencies'),
-        where('studentId', '==', this.student.id),
-      );
+  async deactivateStudent() {
+    if (confirm('Deseja realmente arquivar o participante?\nO arquivamento impede que o participante seja vinculado a novas aulas, mas não apaga seus dados...')) {
+      await updateDoc(doc(this.db, 'students', this.student.id), {
+        activated: false
+      });
 
-      //Delete on lessons participation
-      await getDocs(q).then((querySnapshot) => {
-        querySnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-        });
-      })
-
-      //Delete on students table
-      await deleteDoc(doc(this.db, 'students', this.student.id));
-
-      alert('Participante removido.');
+      alert('Participante arquivado.');
       this.router.navigate(['header/students']);
     }
+  }
+
+  async activateStudent() {
+    await updateDoc(doc(this.db, 'students', this.student.id), {
+      activated: true
+    });
+
+    alert('Participante reativado!');
+    this.router.navigate(['header/students']);
   }
 }

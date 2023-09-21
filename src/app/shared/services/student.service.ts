@@ -10,11 +10,12 @@ export class StudentService {
   private students: DocumentData[];
   constructor() { }
 
-  async getAllStudents(): Promise<DocumentData[]> {
+  async getAllStudents(activated: boolean = true): Promise<DocumentData[]> {
     this.students = [];
     
     const q = query(
       collection(this.db, 'students'),
+      where('activated', "==", activated),
       orderBy('class'),
       orderBy('name')
     );
@@ -23,6 +24,7 @@ export class StudentService {
       querySnapshot.forEach(doc => {
         this.students.push({
           id: doc.id,
+          activated: doc.data()['activated'],
           authorization: doc.data()['authorization'],
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
@@ -39,12 +41,13 @@ export class StudentService {
     });
   }
 
-  async getStudentsByClass(studentsClass: string): Promise<DocumentData[]> {
+  async getStudentsByClass(studentsClass: string, activated: boolean = true): Promise<DocumentData[]> {
     this.students = [];
 
     const q = query(
       collection(this.db, 'students'),
       where('class', '==', studentsClass),
+      where('activated', "==", activated),
       orderBy('name')
     );
 
@@ -53,6 +56,7 @@ export class StudentService {
         this.students.push({
           id: doc.id,
           authorization: doc.data()['authorization'],
+          activated: doc.data()['activated'],
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],

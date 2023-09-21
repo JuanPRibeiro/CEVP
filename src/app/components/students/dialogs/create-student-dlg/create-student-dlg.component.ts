@@ -42,6 +42,7 @@ export class CreateStudentDLGComponent implements OnInit {
     processedDate.setDate(processedDate.getDate() + 1);
 
     await addDoc(collection(this.db, 'students'), {
+      activated: true,
       authorization: authorization.value == 'Sim' ? true : false,
       birthdate: processedDate,
       class: studentClass.value,

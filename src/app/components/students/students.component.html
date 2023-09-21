@@ -22,6 +22,10 @@
   <div class="students">
     <form class="filters">
       <div class="search">
+        <select name="activated" id="activated" (change)="getStudents()">
+          <option value="true">Ativos</option>
+          <option value="false">Arquivados</option>
+        </select>
         <input type="text" name="studentName" id="studentName">
         <label for="studentName"><span matPrefix class="material-icons">search</span></label>
       </div>

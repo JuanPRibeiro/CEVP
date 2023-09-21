@@ -137,6 +137,7 @@
 
     <button type="button" (click)="saveData()">Salvar Alterações</button>
 
-    <button type="button" (click)="deleteStudent()" class="delete"><b>Excluir Participante</b></button>
+    <button *ngIf="student.activated" type="button" (click)="deactivateStudent()" class="delete"><b>Arquivar Participante</b></button>
+    <button *ngIf="!student.activated" type="button" (click)="activateStudent()" class="activate"><b>Desarquivar Participante</b></button>
   </div>
 </section>
