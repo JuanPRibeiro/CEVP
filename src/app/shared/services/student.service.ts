@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DocumentData } from '@angular/fire/compat/firestore';
-import { collection, getFirestore, query, getDocs, orderBy, where } from 'firebase/firestore'
+import { collection, getFirestore, query, getDocs, orderBy, where, updateDoc } from 'firebase/firestore'
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,7 @@ export class StudentService {
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
+          deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
           name: doc.data()['name'],
           parent: doc.data()['parent'],
@@ -60,6 +61,7 @@ export class StudentService {
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
+          deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
           name: doc.data()['name'],
           parent: doc.data()['parent'],

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { collection, deleteDoc, doc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore';
+import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
+import { DeactivateStudentDlgComponent } from '../dialogs/deactivate-student-dlg/deactivate-student-dlg.component';
 
 @Component({
   selector: 'app-student',
@@ -16,7 +18,8 @@ export class StudentComponent implements OnInit {
   protected df: any = DateFormat;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -68,15 +71,27 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  async deactivateStudent() {
-    if (confirm('Deseja realmente arquivar o participante?\nO arquivamento impede que o participante seja vinculado a novas aulas, mas não apaga seus dados...')) {
-      await updateDoc(doc(this.db, 'students', this.student.id), {
-        activated: false
-      });
+  openDialogDeactivateStudent() {
+    const dialogRef = this.dialog.open(DeactivateStudentDlgComponent, {
+      width: '40%',
+      data: {
+        
+      }
+    });
 
-      alert('Participante arquivado.');
-      this.router.navigate(['header/students']);
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== false) this.deactivateStudent(result);
+    });
+  }
+
+  async deactivateStudent(reason: String) {
+    await updateDoc(doc(this.db, 'students', this.student.id), {
+      activated: false,
+      deactivationReason: reason
+    });
+    
+    alert('Participante arquivado.');
+    this.router.navigate(['header/students']);
   }
 
   async activateStudent() {

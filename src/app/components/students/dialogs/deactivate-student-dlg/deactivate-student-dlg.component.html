@@ -1,0 +1,11 @@
+<h2>Desativação de participante</h2>
+
+<form>
+  <p>Qual o motivo do desligamento?</p>
+  <input type="text" name="reason" id="reason" #reason>
+
+  <button type="button" (click)="sendReason(reason.value)">Arquivar</button>
+  <button type="button" (click)="dialogRef.close(false)">Cancelar</button>
+</form>
+
+<small>O arquivamento impede que o participante seja vinculado a novas aulas, mas não apaga seus dados...</small>
