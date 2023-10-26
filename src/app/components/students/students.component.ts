@@ -26,6 +26,11 @@ export class StudentsComponent implements OnInit {
   ngOnInit(): void {
     this.getStudents();
     this.getSchools();
+
+    const sidebarCheck = document.querySelector("#check") as HTMLInputElement;
+    let screenWidth = window.innerWidth;
+
+    if(screenWidth >= 800) sidebarCheck.checked = true;
   }
 
   async getStudents() {

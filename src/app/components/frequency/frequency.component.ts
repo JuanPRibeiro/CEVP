@@ -36,6 +36,11 @@ export class FrequencyComponent implements OnInit {
         this.students = [];
       }
     });
+
+    const sidebarCheck = document.querySelector("#check") as HTMLInputElement;
+    let screenWidth = window.innerWidth;
+
+    if(screenWidth >= 800) sidebarCheck.checked = true;
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {

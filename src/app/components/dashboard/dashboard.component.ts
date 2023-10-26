@@ -13,6 +13,10 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const sidebarCheck = document.querySelector("#check") as HTMLInputElement;
+    let screenWidth = window.innerWidth;
+
+    if(screenWidth >= 800) sidebarCheck.checked = true;
   }
 
 }

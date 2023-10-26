@@ -27,6 +27,11 @@ export class StudentComponent implements OnInit {
     this.student = JSON.parse(sessionStorage.getItem('student'));
     this.schools = JSON.parse(sessionStorage.getItem('schools'));
     this.student.birthdate = new Date(this.student.birthdate);
+
+    const sidebarCheck = document.querySelector("#check") as HTMLInputElement;
+    let screenWidth = window.innerWidth;
+
+    if(screenWidth >= 800) sidebarCheck.checked = true;
   }
 
   changeDetails() {
