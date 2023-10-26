@@ -55,11 +55,12 @@ export class StudentService {
     );
 
     return await getDocs(q).then(querySnapshot => {
-      querySnapshot.forEach(doc => {
+      querySnapshot.forEach(async doc => {
         this.students.push({
           id: doc.id,
           authorization: doc.data()['authorization'],
           activated: doc.data()['activated'],
+          attendance: (await this.getStudentFrequency(doc.id)).toFixed(2),
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
@@ -109,5 +110,24 @@ export class StudentService {
       }
     }
     return module;
+  }
+
+  async getStudentFrequency(studentId: string): Promise<number>{
+    let attendances = 0;
+    let lessons = 0;
+
+    const q = query(
+      collection(this.db, 'frequencies'),
+      where('studentId', "==", studentId),
+    );
+
+    return await getDocs(q).then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        lessons++;
+        if(doc.data()['attendance'] == true) attendances++;
+      })
+    }).then(() => {
+      return attendances/lessons*100;
+    })
   }
 }

@@ -111,7 +111,7 @@ label #cancel {
 }
 
 #check:checked~section {
-  margin-left: 200px;
+  margin-left: 230px;
   padding: .5rem 0 0 1rem;
 }
 

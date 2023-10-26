@@ -6,6 +6,7 @@ import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDo
 import { StudentService } from 'src/app/shared/services/student.service';
 import { DocumentData } from '@angular/fire/compat/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-frequency',
@@ -14,33 +15,42 @@ import * as DateFormat from 'src/app/shared/functions/dateFormat'
 })
 export class FrequencyComponent implements OnInit {
   private db = getFirestore();
-  private changedStudents: number[] = [];
+  private changedFrequencies: number[] = [];
+  protected type: string = 'lessons';
   protected lessons: DocumentData[] = [];
   protected selectedLesson: DocumentData;
+  protected frequencies: DocumentData[] = [];
   protected students: DocumentData[] = [];
-  protected studentsClass: DocumentData[] = [];
   protected nonLinkedStudents: DocumentData[] = [];
   protected df: any = DateFormat;
 
   constructor(
     private dialog: MatDialog,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
-    this.studentsClass = await this.studentService.getStudentsByClass('Manhã');
-    this.getLessons().then(() => {
-      if(this.selectedLesson !== undefined) {
-        this.getStudentsFrequency(this.selectedLesson.id);
-      } else {
-        this.students = [];
-      }
-    });
-
     const sidebarCheck = document.querySelector("#check") as HTMLInputElement;
     let screenWidth = window.innerWidth;
 
-    if(screenWidth >= 800) sidebarCheck.checked = true;
+    if (screenWidth >= 800) sidebarCheck.checked = true;
+
+    const lessonsLabel = document.querySelector('.label-tLessons') as HTMLLabelElement;
+    lessonsLabel.style.backgroundColor = "#3dc20070";
+
+
+    this.students = await this.studentService.getStudentsByClass('Manhã');
+
+    this.getLessons().then(async () => {
+      if (this.selectedLesson !== undefined) {
+        await this.getStudentsFrequency(this.selectedLesson.id);
+        const lessons = document.querySelector('.lessons') as HTMLDivElement;
+        lessons.scrollLeft = lessons.scrollWidth
+      } else {
+        this.frequencies = [];
+      }
+    });
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
@@ -74,8 +84,8 @@ export class FrequencyComponent implements OnInit {
   }
 
   async getStudentsFrequency(lessonId: string) {
-    this.students = [];
-    this.changedStudents = [];
+    this.frequencies = [];
+    this.changedFrequencies = [];
 
     if (lessonId === undefined) return;
 
@@ -88,7 +98,7 @@ export class FrequencyComponent implements OnInit {
 
       await getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          this.students.push({
+          this.frequencies.push({
             freqId: doc.id,
             attendance: doc.data()['attendance'],
             studentId: doc.data()['studentId'],
@@ -96,14 +106,14 @@ export class FrequencyComponent implements OnInit {
           })
         })
 
-        sessionStorage.setItem(lessonId, JSON.stringify(this.students))
+        sessionStorage.setItem(lessonId, JSON.stringify(this.frequencies))
       })
     } else {
-      this.students = JSON.parse(sessionStorage.getItem(lessonId));
+      this.frequencies = JSON.parse(sessionStorage.getItem(lessonId));
     }
 
-    this.nonLinkedStudents = this.studentsClass.filter(student =>
-      this.students.find(linkedStudent => linkedStudent.studentId == student.id) === undefined
+    this.nonLinkedStudents = this.students.filter(student =>
+      this.frequencies.find(linkedStudent => linkedStudent.studentId == student.id) === undefined
     );
   }
 
@@ -113,7 +123,7 @@ export class FrequencyComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(reload => {
-      if(reload) window.location.reload();
+      if (reload) window.location.reload();
     });
   }
 
@@ -126,25 +136,27 @@ export class FrequencyComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(reload => {
-      if(reload) window.location.reload();
+      if (reload) window.location.reload();
     });
   }
 
   async changeClass() {
     const studentsClass = document.querySelector('#class') as HTMLSelectElement;
 
-    this.studentsClass = await this.studentService.getStudentsByClass(studentsClass.value);
-    this.getLessons().then(() => {
-      if(this.selectedLesson !== undefined) {
-        this.getStudentsFrequency(this.selectedLesson.id);
+    this.students = await this.studentService.getStudentsByClass(studentsClass.value);
+    this.getLessons().then(async () => {
+      if (this.selectedLesson !== undefined) {
+        await this.getStudentsFrequency(this.selectedLesson.id);
+        const lessons = document.querySelector('.lessons') as HTMLDivElement;
+        lessons.scrollLeft = lessons.scrollWidth
       } else {
-        this.students = [];
+        this.frequencies = [];
       }
     });
   }
 
   changeDate(lessonIndex: number) {
-    if(this.selectedLesson == this.lessons[lessonIndex]){
+    if (this.selectedLesson == this.lessons[lessonIndex]) {
       //Abrir dialog de edição da aula (mudar data ou excluir)
       this.openDialogEditLesson(this.selectedLesson);
     } else {
@@ -154,17 +166,17 @@ export class FrequencyComponent implements OnInit {
     }
   }
 
-  changeAttendance(studentIndex: number) {
-    this.students[studentIndex].attendance = !this.students[studentIndex].attendance;
-    
+  changeAttendance(freqIndex: number) {
+    this.frequencies[freqIndex].attendance = !this.frequencies[freqIndex].attendance;
+
     //Salvando os estudantes alterados p/ alterar no banco apenas os necessários
-    if (this.changedStudents.find((index) => index == studentIndex) === undefined) {
-      this.changedStudents.push(studentIndex);
+    if (this.changedFrequencies.find((index) => index == freqIndex) === undefined) {
+      this.changedFrequencies.push(freqIndex);
     } else {
-      this.changedStudents.splice(studentIndex, 1);
+      this.changedFrequencies.splice(freqIndex, 1);
     }
-    
-    sessionStorage.setItem(this.selectedLesson.id, JSON.stringify(this.students));
+
+    sessionStorage.setItem(this.selectedLesson.id, JSON.stringify(this.frequencies));
   }
 
   async linkStudent() {
@@ -176,24 +188,54 @@ export class FrequencyComponent implements OnInit {
       studentName: select.options[select.selectedIndex].text,
       attendance: true
     }).then((newDoc) => {
-      this.students.push({
+      this.frequencies.push({
         freqId: newDoc.id,
         attendance: true,
         studentId: select.options[select.selectedIndex].value,
         name: select.options[select.selectedIndex].text
       })
       this.nonLinkedStudents = this.nonLinkedStudents.filter(item => item.id != select.options[select.selectedIndex].value);
-      
+
       select.options.remove(select.selectedIndex);
     })
   }
 
   saveFrequency() {
-    this.changedStudents.forEach((index) => {
-      updateDoc(doc(this.db, 'frequencies', this.students[index].freqId), {
-        attendance: this.students[index].attendance
+    this.changedFrequencies.forEach((index) => {
+      updateDoc(doc(this.db, 'frequencies', this.frequencies[index].freqId), {
+        attendance: this.frequencies[index].attendance
       });
     })
     alert('Lista Salva!');
+  }
+
+  changeType() {
+    const input = document.getElementsByName('type') as NodeListOf<HTMLInputElement>;
+    let checkedLabel: HTMLLabelElement;
+    let uncheckedLabel: HTMLLabelElement;
+
+    if (input[0].checked) {
+      this.type = 'lessons';
+      checkedLabel = document.querySelector('.label-tLessons');
+      uncheckedLabel = document.querySelector('.label-tStudents');
+    } else {
+      this.type = 'students';
+      checkedLabel = document.querySelector('.label-tStudents');
+      uncheckedLabel = document.querySelector('.label-tLessons');
+    }
+
+    checkedLabel.style.backgroundColor = "#3dc20070";
+    uncheckedLabel.style.backgroundColor = "#c2af0070";
+  }
+
+  async getStudentsAttendance() {
+    this.students.forEach(async (student, index) => {
+      this.students[index].attendance = await this.studentService.getStudentFrequency(student.id);
+    })
+  }
+
+  redirectToStudentData(student: Object) {
+    sessionStorage.setItem('student', JSON.stringify(student));
+    this.router.navigate(['header/students/student']);
   }
 }

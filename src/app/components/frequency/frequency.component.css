@@ -8,10 +8,11 @@
 .lessons {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   margin: .5rem .5rem .5rem 0;
   position: relative;
-  top: 1rem
+  top: 10px;
 }
 
 .dates {
@@ -56,6 +57,20 @@ button {
   border: 1px solid #fff3bd;
 }
 
+#add {
+  position: relative;
+  bottom: 1rem;
+}
+
+.addIcon {
+  position: relative;
+  top: 1.8rem;
+  left: .3rem;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+
 .add select {
   margin: 1rem .5rem 0 .5rem;
 }
@@ -72,4 +87,41 @@ button {
 .absent {
   border-color: var(--warning-red) !important;
   background-color: var(--warning-red) !important;
+}
+
+.type {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.type label {
+  background-color: var(--warning-yellow);
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: .75rem;
+  width: 10rem;
+  text-align: center;
+}
+
+.filteredStudents {
+  width: 80%;
+  text-align: center;
+}
+
+.filteredStudents thead {
+  border-bottom: #000 1px solid;
+}
+
+.filteredStudents .name {
+  border-right: #000 1px solid;
+}
+
+.filteredStudents button {
+  margin-top: .25rem;
+  border-radius: 1rem;
+}
+
+.filteredStudents .under75 {
+  background-color: var(--warning-yellow);
 }

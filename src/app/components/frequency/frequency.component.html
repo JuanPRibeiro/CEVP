@@ -21,6 +21,13 @@
 <section>
   <h2>Controle de Frequência</h2>
 
+  <div class="type">
+    <label for="tLessons" class="label-tLessons">Aulas</label>
+    <input type="radio" name="type" id="tLessons" checked hidden (click)="changeType()">
+    <label for="tStudents" class="label-tStudents">Participantes</label>
+    <input type="radio" name="type" id="tStudents" hidden (click)="changeType()">
+  </div>
+
   <div class="filters">
     <div>
       <p>Turma</p>
@@ -36,35 +43,57 @@
     </div>
 
     <div>
-      <label for="add"><span matPrefix class="material-icons">add</span></label>
+      <label for="add" class="addIcon"><span matPrefix class="material-icons">add</span></label>
       <button type="button" id="add" (click)="openDialogCreateLesson()">Add Aula</button>
     </div>
   </div>
 
-  <div class="lessons">
-    <div *ngFor="let lesson of lessons; index as i">
-      <input type="radio" name="lessonDate" id="{{lesson.id}}" value="{{lesson.date}}" (click)="changeDate(i)" hidden>
-      <label for="{{lesson.id}}" class="dates" [class.selectedDate]="selectedLesson.date==lesson.date">
-        <b>{{df.returnData(lesson.date.getDate())}}/{{df.returnData(lesson.date.getMonth()+1)}}</b>
-      </label>
+  <div *ngIf="type=='lessons'" class="lessonsPage">
+    <div class="lessons">
+      <div *ngFor="let lesson of lessons; index as i">
+        <input type="radio" name="lessonDate" id="{{lesson.id}}" value="{{lesson.date}}" (click)="changeDate(i)" hidden>
+        <label for="{{lesson.id}}" class="dates" [class.selectedDate]="selectedLesson.date==lesson.date">
+          <b>{{df.returnData(lesson.date.getDate())}}/{{df.returnData(lesson.date.getMonth()+1)}}</b>
+        </label>
+      </div>
     </div>
+  
+    <div class="selectedLesson">
+      <div *ngFor="let frequency of frequencies; index as i" class="student" [class.absent]="!frequency.attendance">
+        <input type="checkbox" name="{{frequency.name}}" id="{{frequency.freqId}}" checked="{{frequency.attendance}}" (change)="changeAttendance(i)" hidden>
+        <label for="{{frequency.freqId}}">
+          <b>{{frequency.name}}</b>
+        </label>
+      </div>
+  
+      <div *ngIf="nonLinkedStudents.length > 0" class="add student">
+        <select name="addStudent" id="addStudent">
+          <option *ngFor="let student of nonLinkedStudents; index as i" value="{{student.id}}">{{student.name}}</option>
+        </select>
+        <button type="button" (click)="linkStudent()">Add. Participante</button>
+      </div>
+  
+    </div>
+    <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
   </div>
 
-  <div class="selectedLesson">
-    <div *ngFor="let student of students; index as i" class="student" [class.absent]="!student.attendance">
-      <input type="checkbox" name="{{student.name}}" id="{{student.freqId}}" checked="{{student.attendance}}" (change)="changeAttendance(i)" hidden>
-      <label for="{{student.freqId}}">
-        <b>{{student.name}}</b>
-      </label>
-    </div>
-
-    <div *ngIf="nonLinkedStudents.length > 0" class="add student">
-      <select name="addStudent" id="addStudent">
-        <option *ngFor="let student of nonLinkedStudents; index as i" value="{{student.id}}">{{student.name}}</option>
-      </select>
-      <button type="button" (click)="linkStudent()">Add. Participante</button>
-    </div>
-
+  <div *ngIf="type=='students'" class="studentsPage">
+    <table class="filteredStudents">
+      <thead>
+        <tr>
+          <th class="name">Nome</th>
+          <th>Frequência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of this.students; index as i" [class.under75]="student.attendance < 75">
+          <td class="name">{{student.name}}</td>
+          <td>{{student.attendance}}%</td>
+          <td>
+            <button type="button" (click)="redirectToStudentData(student)"><span matPrefix class="material-icons">description</span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
 </section>
