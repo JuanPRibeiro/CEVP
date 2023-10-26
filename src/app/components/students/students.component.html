@@ -37,6 +37,7 @@
         <tr>
           <th class="name">Nome</th>
           <th>Data de Nascimento</th>
+          <th>Módulo JEMG {{now.getFullYear()}}</th>
           <th>Turma</th>
           <th>Detalhar</th>
         </tr>
@@ -45,6 +46,7 @@
         <tr *ngFor="let student of this.students; index as i">
           <td class="name">{{student.name}}</td>
           <td>{{df.returnData(student.birthdate.getDate())}}/{{df.returnData(student.birthdate.getMonth()+1)}}/{{student.birthdate.getFullYear()}}</td>
+          <td>{{student.module}}</td>
           <td>{{student.class}}</td>
           <td>
             <button type="button" (click)="redirectToStudentData(student)"><span matPrefix class="material-icons">description</span></button>

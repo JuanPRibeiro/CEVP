@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
 import { DeactivateStudentDlgComponent } from '../dialogs/deactivate-student-dlg/deactivate-student-dlg.component';
-
+import { StudentService } from 'src/app/shared/services/student.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -20,6 +20,7 @@ export class StudentComponent implements OnInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
+    private studentService: StudentService
   ) { }
 
   ngOnInit(): void {
@@ -27,8 +28,10 @@ export class StudentComponent implements OnInit {
       this.router.navigate(['header/students']);
       return;
     }
+
     this.student = JSON.parse(sessionStorage.getItem('student'));
     this.schools = JSON.parse(sessionStorage.getItem('schools'));
+
     this.student.birthdate = new Date(this.student.birthdate);
   }
 
@@ -75,12 +78,12 @@ export class StudentComponent implements OnInit {
     const dialogRef = this.dialog.open(DeactivateStudentDlgComponent, {
       width: '40%',
       data: {
-        
+
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result !== false) this.deactivateStudent(result);
+      if (result !== false) this.deactivateStudent(result);
     });
   }
 
@@ -89,7 +92,7 @@ export class StudentComponent implements OnInit {
       activated: false,
       deactivationReason: reason
     });
-    
+
     alert('Participante arquivado.');
     this.router.navigate(['header/students']);
   }
