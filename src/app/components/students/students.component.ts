@@ -13,6 +13,7 @@ import * as DateFormat from 'src/app/shared/functions/dateFormat';
 })
 export class StudentsComponent implements OnInit {
   private db = getFirestore();
+  protected now: Date = new Date();
   protected students: any[];
   protected schools: any[];
   protected df: any = DateFormat;
@@ -36,11 +37,7 @@ export class StudentsComponent implements OnInit {
   async getStudents() {
     const activated = document.querySelector('#activated') as HTMLSelectElement;
 
-    
     this.students = activated.value == "true" ? await this.studentService.getAllStudents() : await this.studentService.getAllStudents(false);
-
-    const now = new Date();
-    now.toISOString()
   }
 
   async getSchools() {

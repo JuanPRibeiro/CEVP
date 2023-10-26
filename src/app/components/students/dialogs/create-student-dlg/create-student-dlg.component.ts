@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { getDoc, doc, addDoc, collection, getFirestore } from "firebase/firestore";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 
 @Component({
   selector: 'app-create-student-dlg',
@@ -47,6 +47,7 @@ export class CreateStudentDLGComponent implements OnInit {
       birthdate: processedDate,
       class: studentClass.value,
       contact: contact.value,
+      deactivationReason: "",
       gender: gender.value,
       name: name.value,
       parent: parent.value,

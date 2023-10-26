@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DocumentData } from '@angular/fire/compat/firestore';
-import { collection, getFirestore, query, getDocs, orderBy, where } from 'firebase/firestore'
+import { collection, getFirestore, query, getDocs, orderBy, where, updateDoc } from 'firebase/firestore'
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class StudentService {
 
   async getAllStudents(activated: boolean = true): Promise<DocumentData[]> {
     this.students = [];
-    
+
     const q = query(
       collection(this.db, 'students'),
       where('activated', "==", activated),
@@ -25,11 +25,14 @@ export class StudentService {
         this.students.push({
           id: doc.id,
           activated: doc.data()['activated'],
+          age: this.getStudentAge(doc.data()['birthdate'].toDate()),
           authorization: doc.data()['authorization'],
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
+          deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
+          module:this.getStudentModule(doc.data()['birthdate'].toDate()),
           name: doc.data()['name'],
           parent: doc.data()['parent'],
           parentContact: doc.data()['parentContact'],
@@ -60,6 +63,7 @@ export class StudentService {
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
+          deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
           name: doc.data()['name'],
           parent: doc.data()['parent'],
@@ -70,5 +74,40 @@ export class StudentService {
       });
       return this.students;
     });
+  }
+
+  getStudentAge(birthdate: number|Date): number {
+    birthdate = new Date(birthdate);
+
+    const now = new Date();
+    let age = now.getFullYear() - birthdate.getFullYear();
+    
+    if (
+      now.getMonth() < birthdate.getMonth() ||
+      (now.getMonth() == birthdate.getMonth() && now.getDate() < birthdate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  }
+
+  getStudentModule(birthdate: number): number {
+    const now = new Date();
+    const birthdateYear = new Date(birthdate).getFullYear();
+    const m2Year = now.getFullYear() - 17;
+    const m1Year = now.getFullYear() - 14;
+    const m0Year = now.getFullYear() - 11;
+
+    let module = 3;
+    if (birthdateYear >= m2Year) {
+      module--;
+      if (birthdateYear >= m1Year) {
+        module--;
+        if (birthdateYear >= m0Year) {
+          module--;
+        }
+      }
+    }
+    return module;
   }
 }
