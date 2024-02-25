@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DocumentData } from '@angular/fire/compat/firestore';
-import { collection, getFirestore, query, getDocs, orderBy, where, updateDoc } from 'firebase/firestore'
-
+import { collection, getFirestore, query, getDocs, orderBy, where, getCountFromServer } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,7 +31,7 @@ export class StudentService {
           contact: doc.data()['contact'],
           deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
-          module:this.getStudentModule(doc.data()['birthdate'].toDate()),
+          module: this.getStudentModule(doc.data()['birthdate'].toDate()),
           name: doc.data()['name'],
           parent: doc.data()['parent'],
           parentContact: doc.data()['parentContact'],
@@ -60,7 +59,7 @@ export class StudentService {
           id: doc.id,
           authorization: doc.data()['authorization'],
           activated: doc.data()['activated'],
-          attendance: (await this.getStudentFrequency(doc.id)).toFixed(2),
+          attendance: (await this.getStudentFrequency(doc.id)),
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
@@ -77,12 +76,12 @@ export class StudentService {
     });
   }
 
-  getStudentAge(birthdate: number|Date): number {
+  getStudentAge(birthdate: number | Date): number {
     birthdate = new Date(birthdate);
 
     const now = new Date();
     let age = now.getFullYear() - birthdate.getFullYear();
-    
+
     if (
       now.getMonth() < birthdate.getMonth() ||
       (now.getMonth() == birthdate.getMonth() && now.getDate() < birthdate.getDate())
@@ -112,7 +111,15 @@ export class StudentService {
     return module;
   }
 
-  async getStudentFrequency(studentId: string): Promise<number>{
+  /**
+   * @param studentId 
+   * @returns obj = {
+   *  attendances: number,
+   *  lessons: number,
+   *  percentage: number
+   * }
+   */
+  async getStudentFrequency(studentId: string): Promise<any> {
     let attendances = 0;
     let lessons = 0;
 
@@ -124,10 +131,22 @@ export class StudentService {
     return await getDocs(q).then(querySnapshot => {
       querySnapshot.forEach(doc => {
         lessons++;
-        if(doc.data()['attendance'] == true) attendances++;
+        if (doc.data()['attendance'] == true) attendances++;
       })
     }).then(() => {
-      return attendances/lessons*100;
+      const data = {
+        attendances: attendances,
+        lessons: lessons,
+        percentage: parseFloat((attendances / lessons * 100).toFixed(2))
+      }
+
+      return data;
     })
+  }
+
+  async getStudentsNum(): Promise<number> {
+    const q = query(collection(this.db, 'students'));
+
+    return ((await getCountFromServer(q)).data().count)
   }
 }

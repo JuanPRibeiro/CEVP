@@ -125,3 +125,14 @@ button {
 .filteredStudents .under75 {
   background-color: var(--warning-yellow);
 }
+
+.geralReport .data {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+}
+
+.data div {
+  flex: 1;
+}

@@ -48,6 +48,7 @@
     </div>
   </div>
 
+  <!--Content group by lessons-->
   <div *ngIf="type=='lessons'" class="lessonsPage">
     <div class="lessons">
       <div *ngFor="let lesson of lessons; index as i">
@@ -77,21 +78,57 @@
     <button type="button" (click)="saveFrequency()">Salvar Alterações</button>
   </div>
 
+  <!--Content group by students-->
   <div *ngIf="type=='students'" class="studentsPage">
+    <div class="geralReport">
+      <h2>Dados Gerais</h2>
+
+      <div class="data">
+        <div class="col1">
+          <div class="text">
+            <p><b>Participantes Atendidos</b></p>
+            <p>{{studentsNum}}</p>
+          </div>
+          <div class="text">
+            <p><b>Total de Atendimentos</b></p>
+            <p>{{totalAttendances}}</p>
+          </div>
+        </div>
+        <div class="col2">
+          <div class="text">
+            <b>Aulas Ministradas</b>
+            <p>{{totalLessons}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="filteredStudents">
       <thead>
         <tr>
           <th class="name">Nome</th>
           <th>Frequência</th>
+          <th>Presenças/Aulas</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let student of this.students; index as i" [class.under75]="student.attendance < 75">
+        <tr *ngFor="let student of this.students; index as i" [class.under75]="student.attendance.percentage < 75">
           <td class="name">{{student.name}}</td>
-          <td>{{student.attendance}}%</td>
+          <td>{{student.attendance.attendances}}/{{student.attendance.lessons}}</td>
+          <td>{{student.attendance.percentage}}%</td>
           <td>
             <button type="button" (click)="redirectToStudentData(student)"><span matPrefix class="material-icons">description</span></button>
           </td>
+        </tr>
+        
+        <!--Class Report-->
+        <tr>
+          <th>Total de Participantes</th>
+          <th colspan="2">Méd. Frequências</th>
+        </tr>
+        <tr>
+          <td>{{this.students.length}}</td>
+          <td colspan="2">{{avgFrequency.toFixed(2)}}%</td>
         </tr>
       </tbody>
     </table>

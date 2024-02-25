@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateLessonDlgComponent } from './dialogs/create-lesson-dlg/create-lesson-dlg.component';
 import { EditLessonDlgComponent } from './dialogs/edit-lesson-dlg/edit-lesson-dlg.component';
-import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc, addDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc, addDoc, getCountFromServer } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { DocumentData } from '@angular/fire/compat/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
@@ -23,6 +23,10 @@ export class FrequencyComponent implements OnInit {
   protected students: DocumentData[] = [];
   protected nonLinkedStudents: DocumentData[] = [];
   protected df: any = DateFormat;
+  protected avgFrequency: number = 0;
+  protected studentsNum: number = 0;
+  protected totalLessons: number = 0;
+  protected totalAttendances: number = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -39,18 +43,22 @@ export class FrequencyComponent implements OnInit {
     const lessonsLabel = document.querySelector('.label-tLessons') as HTMLLabelElement;
     lessonsLabel.style.backgroundColor = "#3dc20070";
 
-
     this.students = await this.studentService.getStudentsByClass('Manhã');
 
-    this.getLessons().then(async () => {
+    await this.getLessons().then(async () => {
       if (this.selectedLesson !== undefined) {
         await this.getStudentsFrequency(this.selectedLesson.id);
-        const lessons = document.querySelector('.lessons') as HTMLDivElement;
-        lessons.scrollLeft = lessons.scrollWidth
       } else {
         this.frequencies = [];
       }
     });
+
+    setTimeout(async () => {
+      this.studentsNum = await this.studentService.getStudentsNum();
+      //this.totalLessons = await this.getTotalLessons();
+      //.totalAttendances = await this.getTotalAttendances();
+    }, 500);
+    this.getAverageFrequency();
   }
 
   @HostListener("window:beforeunload", ["$event"]) unloadHandler(event: Event) {
@@ -59,7 +67,7 @@ export class FrequencyComponent implements OnInit {
     })
   }
 
-  async getLessons() {
+  async getLessons(): Promise<void> {
     this.lessons = [];
 
     const studentsClass = document.querySelector('#class') as HTMLSelectElement;
@@ -81,9 +89,17 @@ export class FrequencyComponent implements OnInit {
 
       this.selectedLesson = this.lessons[this.lessons.length - 1];
     })
+
+    setTimeout(() => {
+      const lessons = document.querySelector('.lessons') as HTMLDivElement;
+      lessons.scrollTo({
+        left: lessons.scrollWidth, 
+        behavior: 'smooth'
+      });
+    }, 250);
   }
 
-  async getStudentsFrequency(lessonId: string) {
+  async getStudentsFrequency(lessonId: string): Promise<void> {
     this.frequencies = [];
     this.changedFrequencies = [];
 
@@ -140,22 +156,22 @@ export class FrequencyComponent implements OnInit {
     });
   }
 
-  async changeClass() {
+  async changeClass(): Promise<void> {
     const studentsClass = document.querySelector('#class') as HTMLSelectElement;
 
     this.students = await this.studentService.getStudentsByClass(studentsClass.value);
-    this.getLessons().then(async () => {
+    await this.getLessons().then(async () => {
       if (this.selectedLesson !== undefined) {
         await this.getStudentsFrequency(this.selectedLesson.id);
-        const lessons = document.querySelector('.lessons') as HTMLDivElement;
-        lessons.scrollLeft = lessons.scrollWidth
       } else {
         this.frequencies = [];
       }
     });
+
+    this.getAverageFrequency();
   }
 
-  changeDate(lessonIndex: number) {
+  changeDate(lessonIndex: number): void {
     if (this.selectedLesson == this.lessons[lessonIndex]) {
       //Abrir dialog de edição da aula (mudar data ou excluir)
       this.openDialogEditLesson(this.selectedLesson);
@@ -166,7 +182,7 @@ export class FrequencyComponent implements OnInit {
     }
   }
 
-  changeAttendance(freqIndex: number) {
+  changeAttendance(freqIndex: number): void {
     this.frequencies[freqIndex].attendance = !this.frequencies[freqIndex].attendance;
 
     //Salvando os estudantes alterados p/ alterar no banco apenas os necessários
@@ -179,7 +195,7 @@ export class FrequencyComponent implements OnInit {
     sessionStorage.setItem(this.selectedLesson.id, JSON.stringify(this.frequencies));
   }
 
-  async linkStudent() {
+  async linkStudent(): Promise<void> {
     const select = document.querySelector("#addStudent") as HTMLSelectElement;
 
     await addDoc(collection(this.db, 'frequencies'), {
@@ -200,7 +216,7 @@ export class FrequencyComponent implements OnInit {
     })
   }
 
-  saveFrequency() {
+  saveFrequency(): void {
     this.changedFrequencies.forEach((index) => {
       updateDoc(doc(this.db, 'frequencies', this.frequencies[index].freqId), {
         attendance: this.frequencies[index].attendance
@@ -209,7 +225,7 @@ export class FrequencyComponent implements OnInit {
     alert('Lista Salva!');
   }
 
-  changeType() {
+  changeType(): void {
     const input = document.getElementsByName('type') as NodeListOf<HTMLInputElement>;
     let checkedLabel: HTMLLabelElement;
     let uncheckedLabel: HTMLLabelElement;
@@ -228,14 +244,45 @@ export class FrequencyComponent implements OnInit {
     uncheckedLabel.style.backgroundColor = "#c2af0070";
   }
 
-  async getStudentsAttendance() {
-    this.students.forEach(async (student, index) => {
-      this.students[index].attendance = await this.studentService.getStudentFrequency(student.id);
-    })
-  }
-
-  redirectToStudentData(student: Object) {
+  redirectToStudentData(student: Object): void {
     sessionStorage.setItem('student', JSON.stringify(student));
     this.router.navigate(['header/students/student']);
+  }
+
+  async getTotalAttendances(): Promise<number> {
+    const q = query(collection(this.db, 'frequencies'));
+
+    return (await getCountFromServer(q)).data().count;
+  }
+
+  async getTotalLessons(): Promise<any> {
+    const data = {
+      afternoon: 0,
+      morning: 0
+    }
+
+    const afternoonQuery = query(
+      collection(this.db, 'lessons'),
+      where('class', '==', 'Tarde')
+    );
+    const morningQuery = query(
+      collection(this.db, 'lessons'),
+      where('class', '==', 'Manhã')
+    );
+
+    data.afternoon = (await getCountFromServer(afternoonQuery)).data().count;
+    data.morning = (await getCountFromServer(morningQuery)).data().count;
+
+    return data;
+  }
+
+  getAverageFrequency(): void {
+    this.avgFrequency = 0;
+
+    this.students.forEach(student => {
+      this.avgFrequency += student.attendance.percentage;
+    })
+
+    this.avgFrequency /= this.students.length;
   }
 }
