@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 
@@ -9,12 +10,24 @@ import { addDoc, collection, getFirestore } from "firebase/firestore";
 })
 export class CreateStudentDLGComponent implements OnInit {
   private db = getFirestore();
+
   protected schools: any[];
+
+  protected authorization: boolean = false;
+  protected responsibleTCLE: boolean = false;
+  protected studentTCLE: boolean = false;
+  protected TALE: boolean = false;
+
+  protected selectedAuthorizationFile: File;
+  protected selectedResponsibleTCLEFile: File;
+  protected selectedStudentTCLEFile: File;
+  protected selectedTALEFile: File;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { schools: any[] },
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<CreateStudentDLGComponent>
+    private dialogRef: MatDialogRef<CreateStudentDLGComponent>,
+    private storage: AngularFireStorage
   ) {
     this.schools = this.data.schools;
   }
@@ -26,8 +39,27 @@ export class CreateStudentDLGComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  async createStudent() {
-    const authorization = document.querySelector('#authorization') as HTMLSelectElement;
+  onAuthorizationFileChanged(event: any): void {
+    this.selectedAuthorizationFile = event.target.files[0];
+    if (this.selectedAuthorizationFile) this.authorization = true;
+  }
+
+  onResponsibleTCLEFileChanged(event: any): void {
+    this.selectedResponsibleTCLEFile = event.target.files[0];
+    if (this.selectedResponsibleTCLEFile) this.responsibleTCLE = true;
+  }
+
+  onStudentTCLEFileChanged(event: any): void {
+    this.selectedStudentTCLEFile = event.target.files[0];
+    if (this.selectedStudentTCLEFile) this.studentTCLE = true;
+  }
+
+  onTALEFileChanged(event: any): void {
+    this.selectedTALEFile = event.target.files[0];
+    if (this.selectedTALEFile) this.TALE = true;
+  }
+
+  async createStudent(): Promise<void> {
     const birthdate = document.querySelector('#birthdate') as HTMLInputElement;
     const studentClass = document.querySelector('#class') as HTMLSelectElement;
     const contact = document.querySelector('#contact') as HTMLInputElement;
@@ -43,7 +75,7 @@ export class CreateStudentDLGComponent implements OnInit {
 
     await addDoc(collection(this.db, 'students'), {
       activated: true,
-      authorization: authorization.value == 'Sim' ? true : false,
+      authorization: this.authorization,
       birthdate: processedDate,
       class: studentClass.value,
       contact: contact.value,
@@ -53,9 +85,17 @@ export class CreateStudentDLGComponent implements OnInit {
       parent: parent.value,
       parentContact: parentContact.value,
       parentName: parentName.value,
-      schoolId: schoolId.value
-    }).then(() => {
-      if (confirm('Participante Cadastrado!\nRecarregar os dados?')){
+      responsibleTCLE: this.responsibleTCLE,
+      schoolId: schoolId.value,
+      studentTCLE: this.studentTCLE,
+      tale: this.TALE
+    }).then(async () => {
+      if (this.selectedAuthorizationFile) await this.storage.upload(`authorizations/Autorizacao_${name.value}`, this.selectedAuthorizationFile);
+      if (this.selectedResponsibleTCLEFile) await this.storage.upload(`TCLEs/TCLE_Responsavel_${name.value}`, this.selectedResponsibleTCLEFile);
+      if (this.selectedStudentTCLEFile) await this.storage.upload(`TCLEs/TCLE_Participante_${name.value}`, this.selectedStudentTCLEFile);
+      if (this.selectedTALEFile) await this.storage.upload(`TALEs/TALE_${name.value}`, this.selectedTALEFile);
+
+      if (confirm('Participante Cadastrado!\nRecarregar os dados?')) {
         window.location.reload();
       } else {
         this.dialogRef.close();

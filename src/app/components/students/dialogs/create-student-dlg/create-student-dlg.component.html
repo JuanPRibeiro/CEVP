@@ -60,12 +60,28 @@
     </div>
   </div>
 
-  <div>
-    <p>Entregou Autorização?</p>
-    <select name="authorization" id="authorization">
-      <option value="Não">Não</option>
-      <option value="Sim">Sim</option>
-    </select>
+  <div class="line">
+    <div>  
+      <p>Autorização de Participação <span *ngIf="authorization" matPrefix class="material-icons">done_outline</span></p>
+      <input type="file" name="authorizationFile" id="authorizationFile" accept="image/*,.pdf" (change)="onAuthorizationFileChanged($event)">
+    </div>
+
+    <div>  
+      <p>TCLE do Responsável <span *ngIf="responsibleTCLE" matPrefix class="material-icons">done_outline</span></p>
+      <input type="file" name="responsibleTCLEFile" id="responsibleTCLEFile" accept="image/*,.pdf" (change)="onResponsibleTCLEFileChanged($event)">
+    </div>
+
+    <div>  
+      <p>TCLE do Participante <span *ngIf="studentTCLE" matPrefix class="material-icons">done_outline</span></p>
+      <input type="file" name="studentTCLEFile" id="studentTCLEFile" accept="image/*,.pdf" (change)="onStudentTCLEFileChanged($event)">
+    </div>
+  </div>
+
+  <div class="line">
+    <div>  
+      <p>TALE <span *ngIf="TALE" matPrefix class="material-icons">done_outline</span></p>
+      <input type="file" name="TALEFile" id="TALEFile" accept="image/*,.pdf" (change)="onTALEFileChanged($event)">
+    </div>
   </div>
 
   <button type="submit" (click)="createStudent()">Salvar</button>

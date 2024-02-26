@@ -125,15 +125,48 @@
         <input type="text" name="contact" id="contact" value="{{student.contact}}">
       </div>
 
-      <div>
-        <p>Entregou Autorização</p>
-        <select name="authorization" id="authorization">
-          <option value="Sim">Sim</option>
-          <option value="Não" [selected]="!student.authorization">Não</option>
-        </select>
+      <div class="authorization">
+        <p>
+          Autorização de Participação 
+          <span *ngIf="student.authorization" matPrefix class="material-icons" style="color: green">done_outline</span>
+          <span *ngIf="!student.authorization" matPrefix class="material-icons" style="color: red">close</span>
+        </p>
+        <input type="file" name="authorizationFile" id="authorizationFile" accept="image/*,.pdf" (change)="onAuthorizationFileChanged($event)">
+        <button *ngIf="student.authorization" (click)="onViewAuthorizationFile()">Ver Autorização</button>
       </div>
     </div>
 
+    <div class="line">
+      <div class="responsibleTCLE">
+        <p>
+          TCLE do Responsável 
+          <span *ngIf="student.responsibleTCLE" matPrefix class="material-icons" style="color: green">done_outline</span>
+          <span *ngIf="!student.responsibleTCLE" matPrefix class="material-icons" style="color: red">close</span>
+        </p>
+        <input type="file" name="responsibleTCLEFile" id="responsibleTCLEFile" accept="image/*,.pdf" (change)="onResponsibleTCLEFileChanged($event)">
+        <button *ngIf="student.responsibleTCLE" (click)="onViewResponsibleTCLEFile()">Ver TCLE</button>
+      </div>
+
+      <div class="studentTCLE">
+        <p>
+          TCLE do Participante 
+          <span *ngIf="student.studentTCLE" matPrefix class="material-icons" style="color: green">done_outline</span>
+          <span *ngIf="!student.studentTCLE" matPrefix class="material-icons" style="color: red">close</span>
+        </p>
+        <input type="file" name="studentTCLEFile" id="studentTCLEFile" accept="image/*,.pdf" (change)="onStudentTCLEFileChanged($event)">
+        <button *ngIf="student.studentTCLE" (click)="onViewStudentTCLEFile()">Ver TCLE</button>
+      </div>
+
+      <div class="TALE">
+        <p>
+          TALE 
+          <span *ngIf="student.tale" matPrefix class="material-icons" style="color: green">done_outline</span>
+          <span *ngIf="!student.tale" matPrefix class="material-icons" style="color: red">close</span>
+        </p>
+        <input type="file" name="taleFile" id="taleFile" accept="image/*,.pdf" (change)="onTALEFileChanged($event)">
+        <button *ngIf="student.tale" (click)="onViewTALEFile()">Ver TALE</button>
+      </div>
+    </div>
 
     <button type="button" (click)="saveData()">Salvar Alterações</button>
 

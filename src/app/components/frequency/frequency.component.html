@@ -96,8 +96,16 @@
         </div>
         <div class="col2">
           <div class="text">
-            <b>Aulas Ministradas</b>
-            <p>{{totalLessons}}</p>
+            <b>Aulas Turma da Manhã</b>
+            <p>{{totalLessons.morning}}</p>
+            <b>Aulas Turma da Tarde</b>
+            <p>{{totalLessons.afternoon}}</p>
+          </div>
+        </div>
+        <div class="col3">
+          <div class="text">
+            <b>Total de Aulas Ministradas</b>
+            <p>{{totalLessons.morning+totalLessons.afternoon}}</p>
           </div>
         </div>
       </div>

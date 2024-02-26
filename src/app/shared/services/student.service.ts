@@ -36,7 +36,10 @@ export class StudentService {
           parent: doc.data()['parent'],
           parentContact: doc.data()['parentContact'],
           parentName: doc.data()['parentName'],
-          schoolId: doc.data()['schoolId']
+          responsibleTCLE: doc.data()['responsibleTCLE'],
+          schoolId: doc.data()['schoolId'],
+          studentTCLE: doc.data()['studentTCLE'],
+          tale: doc.data()['tale']
         });
       });
       return this.students;

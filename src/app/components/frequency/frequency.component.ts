@@ -25,7 +25,7 @@ export class FrequencyComponent implements OnInit {
   protected df: any = DateFormat;
   protected avgFrequency: number = 0;
   protected studentsNum: number = 0;
-  protected totalLessons: number = 0;
+  protected totalLessons: any = 0;
   protected totalAttendances: number = 0;
 
   constructor(
@@ -55,8 +55,8 @@ export class FrequencyComponent implements OnInit {
 
     setTimeout(async () => {
       this.studentsNum = await this.studentService.getStudentsNum();
-      //this.totalLessons = await this.getTotalLessons();
-      //.totalAttendances = await this.getTotalAttendances();
+      this.totalLessons = await this.getTotalLessons();
+      this.totalAttendances = await this.getTotalAttendances();
     }, 500);
     this.getAverageFrequency();
   }
