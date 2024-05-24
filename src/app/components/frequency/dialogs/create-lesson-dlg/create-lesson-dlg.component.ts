@@ -13,7 +13,7 @@ export class CreateLessonDlgComponent implements OnInit {
   private db = getFirestore();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { },
+    @Inject(MAT_DIALOG_DATA) private data: {},
     private dialogRef: MatDialogRef<CreateLessonDlgComponent>,
     private studentService: StudentService
   ) { }
@@ -31,31 +31,31 @@ export class CreateLessonDlgComponent implements OnInit {
 
     let processedDate = new Date(date.value);
 
-    processedDate.setDate(processedDate.getDate()+1);
+    processedDate.setDate(processedDate.getDate() + 1);
 
     await addDoc(collection(this.db, "lessons"), {
       date: processedDate,
       class: studentsClass.value,
     }).then(async (lesson) => {
-      this.linkStudents(lesson, studentsClass.value);
+      await this.linkStudents(lesson, studentsClass.value);
     })
   }
 
-  linkStudents(lesson: DocumentReference<DocumentData>, studentsClass: string) {
-    this.studentService.getStudentsByClass(studentsClass).then((students) => {
-      students.forEach((student) => {
-        addDoc(collection(this.db, 'frequencies'), {
-          lessonId: lesson.id,
-          studentId: student.id,
-          studentName: student.name,
-          attendance: true
-        })
-      })
-    }).then(() => {
-      setTimeout(() => {
-        alert('Aula cadastrada!');
-        this.dialogRef.close(true);
-      }, 2000);
+  async linkStudents(lesson: DocumentReference<DocumentData>, studentsClass: string) {
+    const students = await this.studentService.getStudentsByClass(studentsClass);
+
+    const addFrequenciesPromises = students.map(async (student) => {
+      await addDoc(collection(this.db, 'frequencies'), {
+        lessonId: lesson.id,
+        studentId: student.id,
+        studentName: student.name,
+        attendance: false
+      });
     });
+  
+    await Promise.all(addFrequenciesPromises);
+  
+    alert('Aula cadastrada!');
+    this.dialogRef.close(true);
   }
 }

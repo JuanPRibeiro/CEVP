@@ -56,27 +56,31 @@ export class StudentService {
       orderBy('name')
     );
 
-    return await getDocs(q).then(querySnapshot => {
-      querySnapshot.forEach(async doc => {
-        this.students.push({
-          id: doc.id,
-          authorization: doc.data()['authorization'],
-          activated: doc.data()['activated'],
-          attendance: (await this.getStudentFrequency(doc.id)),
-          birthdate: new Date(doc.data()['birthdate'].toDate()),
-          class: doc.data()['class'],
-          contact: doc.data()['contact'],
-          deactivationReason: doc.data()['deactivationReason'],
-          gender: doc.data()['gender'],
-          name: doc.data()['name'],
-          parent: doc.data()['parent'],
-          parentContact: doc.data()['parentContact'],
-          parentName: doc.data()['parentName'],
-          schoolId: doc.data()['schoolId']
-        });
-      });
-      return this.students;
+    const querySnapshot = await getDocs(q);
+
+    const studentsPromises = querySnapshot.docs.map(async (doc) => {
+      const studentData = {
+        id: doc.id,
+        authorization: doc.data()['authorization'],
+        activated: doc.data()['activated'],
+        attendance: await this.getStudentFrequency(doc.id),
+        birthdate: new Date(doc.data()['birthdate'].toDate()),
+        class: doc.data()['class'],
+        contact: doc.data()['contact'],
+        deactivationReason: doc.data()['deactivationReason'],
+        gender: doc.data()['gender'],
+        name: doc.data()['name'],
+        parent: doc.data()['parent'],
+        parentContact: doc.data()['parentContact'],
+        parentName: doc.data()['parentName'],
+        schoolId: doc.data()['schoolId']
+      };
+  
+      return studentData;
     });
+  
+    this.students = await Promise.all(studentsPromises);
+    return this.students;
   }
 
   getStudentAge(birthdate: number | Date): number {
