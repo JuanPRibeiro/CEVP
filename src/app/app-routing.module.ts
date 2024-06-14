@@ -10,7 +10,9 @@ import {
   ProfileComponent,
   StudentsComponent,
   StudentComponent,
-  FrequencyComponent
+  FrequencyComponent,
+  AntropometriaComponent,
+  studentAComponent
 } from './components'
 
 import { AuthGuard } from './shared/guard/auth.guard';
@@ -60,6 +62,16 @@ const routes: Routes = [
       {
         path: 'students',
         component: StudentsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'antropometria',
+        component: AntropometriaComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'antropometria/studentA',
+        component: studentAComponent,
         canActivate: [AuthGuard]
       },
       {

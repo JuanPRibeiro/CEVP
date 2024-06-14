@@ -7,3 +7,5 @@ export * from './profile/profile.component';
 export * from './students/students.component';
 export * from './students/student/student.component';
 export * from './frequency/frequency.component';
+export * from './antropometria/antropometria.component';
+export * from './antropometria/student/studentA.component'

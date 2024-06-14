@@ -48,6 +48,7 @@ import { CreateLessonDlgComponent } from './components/frequency/dialogs/create-
 import { StudentComponent } from './components/students/student/student.component';
 import { EditLessonDlgComponent } from './components/frequency/dialogs/edit-lesson-dlg/edit-lesson-dlg.component';
 import { DeactivateStudentDlgComponent } from './components/students/dialogs/deactivate-student-dlg/deactivate-student-dlg.component';
+import { AntropometriaComponent } from './components/antropometria/antropometria.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { DeactivateStudentDlgComponent } from './components/students/dialogs/dea
     CreateLessonDlgComponent,
     StudentComponent,
     EditLessonDlgComponent,
-    DeactivateStudentDlgComponent
+    DeactivateStudentDlgComponent,
+    AntropometriaComponent
   ],
   imports: [
     BrowserModule,
