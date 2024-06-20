@@ -68,7 +68,7 @@
       </div>
 
       <div>
-        <p>Data de Nascimento</p>
+        <p>Data da 1ª avaliação</p>
         <input type="date" name="birthdate" id="birthdate"
           value="{{student.birthdate.getFullYear()}}-{{df.returnData(student.birthdate.getMonth()+1)}}-{{df.returnData(student.birthdate.getDate())}}">
       </div>
@@ -84,36 +84,36 @@
       </div>
 
       <div>
-        <p>Idade Teste</p>
+        <p>Idade</p>
         <input type="number" name="age" id="age" value="{{student.age}}" readonly>
       </div>
 
       <div>
-        <p>Módulo JEMG (2023)</p>
+        <p>Peso</p>
         <input type="number" name="module" id="module" value="{{student.module}}" readonly>
       </div>
     </div>
 
     <div class="line">
       <div>
-        <p>Nome do Responsável</p>
+        <p>Estatura</p>
         <input type="text" name="parentName" id="parentName" value="{{student.parentName}}">
       </div>
 
       <div>
-        <p>Parente</p>
+        <p>Envergadura</p>
         <input type="text" name="parent" id="parent" value="{{student.parent}}">
       </div>
 
       <div>
-        <p>Contato do Parente</p>
+        <p>IMC</p>
         <input type="text" name="parentContact" id="parentContact" value="{{student.parentContact}}">
       </div>
     </div>
 
     <div class="line">
       <div>
-        <p>Escola</p>
+        <p>Salto horizontal</p>
         <select name="schoolId" id="schoolId">
           <option *ngFor="let school of schools" value="{{school.id}}" [selected]="school.id == student.schoolId">
             {{school.name}}</option>
@@ -121,52 +121,33 @@
       </div>
 
       <div>
-        <p>Contato</p>
+        <p>Salto vertical</p>
         <input type="text" name="contact" id="contact" value="{{student.contact}}">
       </div>
 
-      <div class="authorization">
-        <p>
-          Autorização de Participação 
-          <span *ngIf="student.authorization" matPrefix class="material-icons" style="color: green">done_outline</span>
-          <span *ngIf="!student.authorization" matPrefix class="material-icons" style="color: red">close</span>
-        </p>
-        <input type="file" name="authorizationFile" id="authorizationFile" accept="image/*,.pdf" (change)="onAuthorizationFileChanged($event)">
-        <button *ngIf="student.authorization" (click)="onViewAuthorizationFile()">Ver Autorização</button>
+      <div>
+        <p>Corrida de 20m (s)</p>
+        <input type="text" name="contact" id="contact" value="{{student.contact}}">
       </div>
-    </div>
-
+    </div>  
+      
     <div class="line">
-      <div class="responsibleTCLE">
-        <p>
-          TCLE do Responsável 
-          <span *ngIf="student.responsibleTCLE" matPrefix class="material-icons" style="color: green">done_outline</span>
-          <span *ngIf="!student.responsibleTCLE" matPrefix class="material-icons" style="color: red">close</span>
-        </p>
-        <input type="file" name="responsibleTCLEFile" id="responsibleTCLEFile" accept="image/*,.pdf" (change)="onResponsibleTCLEFileChanged($event)">
-        <button *ngIf="student.responsibleTCLE" (click)="onViewResponsibleTCLEFile()">Ver TCLE</button>
+      <div>
+        <p>Quadrado de 4x4 metros (s)</p>
+        <input type="text" name="contact" id="contact" value="{{student.contact}}">
       </div>
 
-      <div class="studentTCLE">
-        <p>
-          TCLE do Participante 
-          <span *ngIf="student.studentTCLE" matPrefix class="material-icons" style="color: green">done_outline</span>
-          <span *ngIf="!student.studentTCLE" matPrefix class="material-icons" style="color: red">close</span>
-        </p>
-        <input type="file" name="studentTCLEFile" id="studentTCLEFile" accept="image/*,.pdf" (change)="onStudentTCLEFileChanged($event)">
-        <button *ngIf="student.studentTCLE" (click)="onViewStudentTCLEFile()">Ver TCLE</button>
+      <div>
+        <p>Arremesso de medicine ball de 2kg (cm)</p>
+        <input type="text" name="contact" id="contact" value="{{student.contact}}">
       </div>
 
-      <div class="TALE">
-        <p>
-          TALE 
-          <span *ngIf="student.tale" matPrefix class="material-icons" style="color: green">done_outline</span>
-          <span *ngIf="!student.tale" matPrefix class="material-icons" style="color: red">close</span>
-        </p>
-        <input type="file" name="taleFile" id="taleFile" accept="image/*,.pdf" (change)="onTALEFileChanged($event)">
-        <button *ngIf="student.tale" (click)="onViewTALEFile()">Ver TALE</button>
+      <div>
+        <p>Corrida/caminhada de 6 minutos (m)</p>
+        <input type="text" name="contact" id="contact" value="{{student.contact}}">
       </div>
-    </div>
+    </div>  
+
 
     <button type="button" (click)="saveData()">Salvar Alterações</button>
 

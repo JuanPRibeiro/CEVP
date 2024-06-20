@@ -133,6 +133,7 @@ export class StudentComponent implements OnInit {
         const parentContact = document.querySelector('#parentContact') as HTMLInputElement;
         const parentName = document.querySelector('#parentName') as HTMLInputElement;
         const schoolId = document.querySelector('#schoolId') as HTMLInputElement;
+        const contactInclued = document.querySelector('#contactInclued') as HTMLInputElement;
         let processedDate = new Date(birthdate.value);
 
         processedDate.setDate(processedDate.getDate() + 1);
@@ -149,6 +150,7 @@ export class StudentComponent implements OnInit {
           parentName: parentName.value,
           responsibleTCLE: this.responsibleTCLE,
           schoolId: schoolId.value,
+          contactInclued: contactInclued.value,
           studentTCLE: this.studentTCLE,
           tale: this.TALE
         }).then(async () => {
