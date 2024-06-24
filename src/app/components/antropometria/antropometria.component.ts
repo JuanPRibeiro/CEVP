@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { collection, getDocs, getFirestore, orderBy, query } from 'firebase/firestore';
+import { DocumentData, collection, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 import * as DateFormat from 'src/app/shared/functions/dateFormat';
 
@@ -68,7 +68,46 @@ export class AntropometriaComponent implements OnInit {
     this.router.navigate(['header/antropometria/studentA']);
   }
 
+  async getAllStudents(activated: boolean = true): Promise<DocumentData[]> {
+    this.students = [];
+
+    const q = query(
+      collection(this.db, 'antropometrias'),
+      where('activated', "==", activated),
+      orderBy('class'),
+      orderBy('name')
+    );
+
+    return await getDocs(q).then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        this.students.push({
+          id: doc.id,
+          activated: doc.data()['activated'],
+          avaliation: doc.data()['avaliation1'].toDate(),
+          authorization: doc.data()['authorization'],
+          birthdate: new Date(doc.data()['birthdate'].toDate()),
+          class: doc.data()['class'],
+          contact: doc.data()['contact'],
+          contactInclued: doc.data()['contactInclued'],
+          deactivationReason: doc.data()['deactivationReason'],
+          gender: doc.data()['gender'],
+          module: this.getStudentModule(doc.data()['birthdate'].toDate()),
+          name: doc.data()['name'],
+          weight: doc.data()['weight'],
+          estatura: doc.data()['estatura'],
+          responsibleTCLE: doc.data()['responsibleTCLE'],
+          schoolId: doc.data()['schoolId'],
+          studentTCLE: doc.data()['studentTCLE'],
+          tale: doc.data()['tale']
+        });
+      });
+      return this.students;
+    });
+  
   
 }
+  getStudentModule(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
 
-
+}

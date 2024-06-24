@@ -29,6 +29,7 @@ export class StudentService {
           birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
           contact: doc.data()['contact'],
+          contactInclued: doc.data()['contactInclued'],
           deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
           module: this.getStudentModule(doc.data()['birthdate'].toDate()),

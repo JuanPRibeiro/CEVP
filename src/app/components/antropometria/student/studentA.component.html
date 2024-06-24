@@ -90,14 +90,14 @@
 
       <div>
         <p>Peso</p>
-        <input type="number" name="module" id="module" value="{{student.module}}" readonly>
+        <input type="weight" name="weight" id="weight" value="{{student.weight}}" (input)="updateIMC()">
       </div>
     </div>
 
     <div class="line">
       <div>
         <p>Estatura</p>
-        <input type="text" name="parentName" id="parentName" value="{{student.parentName}}">
+        <input type="text" name="estatura" id="estatura" value="{{student.estatura}}" (input)="updateIMC()">
       </div>
 
       <div>
@@ -107,7 +107,7 @@
 
       <div>
         <p>IMC</p>
-        <input type="text" name="parentContact" id="parentContact" value="{{student.parentContact}}">
+        <input type="text" name="IMC" id="IMC" value="{{calcIMC(student.weight, student.estatura)}}" readonly>
       </div>
     </div>
 

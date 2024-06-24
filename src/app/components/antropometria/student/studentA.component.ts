@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getFirestore, updateDoc } from 'firebase/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
 import { FirebaseStorage, getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -122,6 +122,8 @@ export class studentAComponent implements OnInit {
     window.open(this.taleUrl, '_blank');
   }
 
+  
+
   async saveData() {
     switch (this.selectedData) {
       case 'initialData':
@@ -130,39 +132,36 @@ export class studentAComponent implements OnInit {
         const contact = document.querySelector('#contact') as HTMLInputElement;
         const gender = document.querySelector('#gender') as HTMLSelectElement;
         const name = document.querySelector('#name') as HTMLInputElement;
-        const parent = document.querySelector('#parent') as HTMLInputElement;
-        const parentContact = document.querySelector('#parentContact') as HTMLInputElement;
-        const parentName = document.querySelector('#parentName') as HTMLInputElement;
+        const weight = document.querySelector('#weight') as HTMLInputElement;
+        const IMC = document.querySelector('#IMC') as HTMLInputElement;
+        const estatura = document.querySelector('#estatura') as HTMLInputElement;
         const schoolId = document.querySelector('#schoolId') as HTMLInputElement;
         let processedDate = new Date(birthdate.value);
 
         processedDate.setDate(processedDate.getDate() + 1);
+        
+        //Passar os campos usados realmente no HTML para o await addDoc abaixo
 
-        updateDoc(doc(this.db, 'students', this.student.id), {
-          authorization: this.authorization,
-          birthdate: processedDate,
-          class: studentClass.value,
-          contact: contact.value,
-          gender: gender.value,
-          name: name.value,
-          parent: parent.value,
-          parentContact: parentContact.value,
-          parentName: parentName.value,
-          responsibleTCLE: this.responsibleTCLE,
-          schoolId: schoolId.value,
-          studentTCLE: this.studentTCLE,
-          tale: this.TALE
-        }).then(async () => {
-          if(this.selectedAuthorizationFile) await this.angFireStorage.upload(`authorizations/Autorizacao_${name.value}`, this.selectedAuthorizationFile);
-          if(this.selectedResponsibleTCLEFile) await this.angFireStorage.upload(`TCLEs/TCLE_Responsavel_${name.value}`, this.selectedResponsibleTCLEFile);
-          if(this.selectedStudentTCLEFile) await this.angFireStorage.upload(`TCLEs/TCLE_Participante_${name.value}`, this.selectedStudentTCLEFile);
-          if(this.selectedTALEFile) await this.angFireStorage.upload(`TALEs/TALE_${name.value}`, this.selectedTALEFile);
-          
-          alert('Dados Salvos!');
-          this.router.navigate(['header/students']);
+        await addDoc(collection(this.db, 'antropometrias'), {
+          studentId: this.student.id,
+          weight: weight.value,
+          estatura: estatura.value
         });
         break;
+
+
     }
+  }
+
+  calcIMC(weight, estatura): number{
+    return weight/estatura*2
+  }
+
+  updateIMC(): void{
+    const IMC = document.querySelector('#IMC') as HTMLInputElement;
+    const weight = document.querySelector('#weight') as HTMLInputElement;
+    const estatura = document.querySelector('#estatura') as HTMLInputElement;
+    IMC.value = this.calcIMC(weight.value, estatura.value).toString()
   }
 
   changeDetails() {
