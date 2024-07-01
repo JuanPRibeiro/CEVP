@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateLessonDlgComponent } from './dialogs/create-lesson-dlg/create-lesson-dlg.component';
 import { EditLessonDlgComponent } from './dialogs/edit-lesson-dlg/edit-lesson-dlg.component';
-import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc, addDoc, getCountFromServer } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, orderBy, query, where, updateDoc, addDoc, getCountFromServer, and } from 'firebase/firestore';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { DocumentData } from '@angular/fire/compat/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
@@ -27,6 +27,7 @@ export class FrequencyComponent implements OnInit {
   protected studentsNum: number = 0;
   protected totalLessons: any = 0;
   protected totalAttendances: number = 0;
+  protected totalAttendancesClass: any = 0;
 
   constructor(
     private dialog: MatDialog,
@@ -57,6 +58,7 @@ export class FrequencyComponent implements OnInit {
       this.studentsNum = await this.studentService.getStudentsNum();
       this.totalLessons = await this.getTotalLessons();
       this.totalAttendances = await this.getTotalAttendances();
+      this.totalAttendancesClass = await this.getTotalAttendancesClass();
     }, 500);
     this.getAverageFrequency();
   }
@@ -254,6 +256,28 @@ export class FrequencyComponent implements OnInit {
 
     return (await getCountFromServer(q)).data().count;
   }
+
+  async getTotalAttendancesClass(): Promise<any> {
+    const data = {
+      afternoon: 0,
+      morning: 0
+    }
+
+    const afternoonQuery = query(
+      collection(this.db, 'frequencies'),
+      where('class', '==', 'Tarde')
+    );
+    const morningQuery = query(
+      collection(this.db, 'frequencies'),
+      where('class', '==', 'Manhã')
+    );
+
+    data.afternoon = (await getCountFromServer(afternoonQuery)).data().count;
+    data.morning = (await getCountFromServer(morningQuery)).data().count;
+
+    return data;
+  }
+
 
   async getTotalLessons(): Promise<any> {
     const data = {

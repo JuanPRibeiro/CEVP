@@ -133,7 +133,7 @@ export class StudentComponent implements OnInit {
         const parentContact = document.querySelector('#parentContact') as HTMLInputElement;
         const parentName = document.querySelector('#parentName') as HTMLInputElement;
         const schoolId = document.querySelector('#schoolId') as HTMLInputElement;
-        const contactInclued = document.querySelector('#contactInclued') as HTMLInputElement;
+        //const contactInclued = document.querySelector('#contactInclued') as HTMLInputElement;
         let processedDate = new Date(birthdate.value);
 
         processedDate.setDate(processedDate.getDate() + 1);
@@ -150,10 +150,11 @@ export class StudentComponent implements OnInit {
           parentName: parentName.value,
           responsibleTCLE: this.responsibleTCLE,
           schoolId: schoolId.value,
-          contactInclued: contactInclued.value,
+          //contactInclued: contactInclued.value,
           studentTCLE: this.studentTCLE,
           tale: this.TALE
         }).then(async () => {
+          console.log("teste")
           if(this.selectedAuthorizationFile) await this.angFireStorage.upload(`authorizations/Autorizacao_${name.value}`, this.selectedAuthorizationFile);
           if(this.selectedResponsibleTCLEFile) await this.angFireStorage.upload(`TCLEs/TCLE_Responsavel_${name.value}`, this.selectedResponsibleTCLEFile);
           if(this.selectedStudentTCLEFile) await this.angFireStorage.upload(`TCLEs/TCLE_Participante_${name.value}`, this.selectedStudentTCLEFile);
