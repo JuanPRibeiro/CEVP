@@ -252,7 +252,8 @@ export class FrequencyComponent implements OnInit {
   }
 
   async getTotalAttendances(): Promise<number> {
-    const q = query(collection(this.db, 'frequencies'));
+    const q = query(collection(this.db, 'frequencies'),
+  where('attendance','==', true));
 
     return (await getCountFromServer(q)).data().count;
   }
