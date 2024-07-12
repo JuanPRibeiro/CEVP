@@ -6,6 +6,7 @@ import * as DateFormat from 'src/app/shared/functions/dateFormat'
 import { DeactivateStudentDlgComponent } from '../dialogs/deactivate-student-dlg/deactivate-student-dlg.component';
 import { FirebaseStorage, getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -200,6 +201,30 @@ export class StudentComponent implements OnInit {
   }
 
   changeDetails() {
-    
+  
   }
+
+  exportToExcel(): void {
+    const studentData = [
+      {
+        Nome: this.student.name,
+        DataDeNascimento: this.student.birthdate.toLocaleDateString(),
+        Contato: this.student.contact,
+        Gênero: this.student.gender,
+        PaiOuResponsável: this.student.parent,
+        ContatoDoPaiOuResponsável: this.student.parentContact,
+        NomeDoPaiOuResponsável: this.student.parentName,
+        Escola: this.schools.find(school => school.id === this.student.schoolId)?.name
+      }
+    ];
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'dados_do_estudante': worksheet },
+      SheetNames: ['dados_do_estudante']
+    };
+
+    XLSX.writeFile(workbook, 'dados_do_estudante.xlsx');
+  }
+
 }
