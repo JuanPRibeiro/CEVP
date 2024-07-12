@@ -191,6 +191,7 @@
     </div>
 
     <button (click)="exportToExcel()">Exportar para Excel</button>
+    <button (click)="exportAllStudentsToExcel()">Exportar Todos os Alunos para Excel</button>
     <button type="button" (click)="saveData()">Salvar Alterações</button>
 
     <button *ngIf="student.activated" type="button" (click)="openDialogDeactivateStudent()" class="delete"><b>Arquivar Participante</b></button>

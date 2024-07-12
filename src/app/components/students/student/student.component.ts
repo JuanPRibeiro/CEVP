@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, getFirestore, updateDoc } from 'firebase/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
 import { DeactivateStudentDlgComponent } from '../dialogs/deactivate-student-dlg/deactivate-student-dlg.component';
 import { FirebaseStorage, getDownloadURL, getStorage, ref } from 'firebase/storage';
@@ -225,6 +225,31 @@ export class StudentComponent implements OnInit {
     };
 
     XLSX.writeFile(workbook, 'dados_do_estudante.xlsx');
+  }
+
+  async exportAllStudentsToExcel(): Promise<void> {
+    const studentsCollection = collection(this.db, 'students');
+    const studentsSnapshot = await getDocs(studentsCollection);
+    const studentsList = studentsSnapshot.docs.map(doc => doc.data());
+
+    const studentData = studentsList.map(student => ({
+      Nome: student.name,
+      DataDeNascimento: new Date(student.birthdate.seconds * 1000).toLocaleDateString(), // Converte timestamp para data
+      Contato: student.contact,
+      Gênero: student.gender,
+      PaiOuResponsável: student.parent,
+      ContatoDoPaiOuResponsável: student.parentContact,
+      NomeDoPaiOuResponsável: student.parentName,
+      Escola: this.schools.find(school => school.id === student.schoolId)?.name
+    }));
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'dados_dos_estudantes': worksheet },
+      SheetNames: ['dados_dos_estudantes']
+    };
+
+    XLSX.writeFile(workbook, 'dados_dos_estudantes.xlsx');
   }
 
 }
