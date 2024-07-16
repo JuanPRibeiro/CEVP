@@ -240,7 +240,8 @@ export class StudentComponent implements OnInit {
       PaiOuResponsável: student.parent,
       ContatoDoPaiOuResponsável: student.parentContact,
       NomeDoPaiOuResponsável: student.parentName,
-      Escola: this.schools.find(school => school.id === student.schoolId)?.name
+      Escola: this.schools.find(school => school.id === student.schoolId)?.name,
+      Status: student.activated
     }));
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(studentData);
