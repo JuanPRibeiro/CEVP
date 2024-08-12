@@ -44,7 +44,7 @@ export class studentAComponent implements OnInit {
   ngOnInit(): void {
     //Data
     if (sessionStorage.getItem('student') === null || sessionStorage.getItem('schools') === null) {
-      this.router.navigate(['header/students']);
+      this.router.navigate(['header/antropometria']);
       return;
     }
 
@@ -127,25 +127,44 @@ export class studentAComponent implements OnInit {
   async saveData() {
     switch (this.selectedData) {
       case 'initialData':
-        const birthdate = document.querySelector('#birthdate') as HTMLInputElement;
         const studentClass = document.querySelector('#class') as HTMLSelectElement;
-        const contact = document.querySelector('#contact') as HTMLInputElement;
+        const avaliation = document.querySelector('#avaliation1') as HTMLInputElement;
         const gender = document.querySelector('#gender') as HTMLSelectElement;
         const name = document.querySelector('#name') as HTMLInputElement;
         const weight = document.querySelector('#weight') as HTMLInputElement;
+        const envergadura = document.querySelector('#envergadura') as HTMLInputElement;
+        const saltoH = document.querySelector('#saltoH') as HTMLInputElement;
+        const saltoV = document.querySelector('#saltoV') as HTMLInputElement;
+        const corrida = document.querySelector('#corrida') as HTMLInputElement;
+        const quadrado4x4 = document.querySelector('#quadrado4x4') as HTMLInputElement;
+        const arremesso = document.querySelector('#arremesso') as HTMLInputElement;
+        const caminhada = document.querySelector('#caminhada') as HTMLInputElement;
         const IMC = document.querySelector('#IMC') as HTMLInputElement;
         const estatura = document.querySelector('#estatura') as HTMLInputElement;
-        const schoolId = document.querySelector('#schoolId') as HTMLInputElement;
-        let processedDate = new Date(birthdate.value);
-
-        processedDate.setDate(processedDate.getDate() + 1);
-        
+  
         //Passar os campos usados realmente no HTML para o await addDoc abaixo
 
         await addDoc(collection(this.db, 'antropometrias'), {
           studentId: this.student.id,
+          name: name.value,
+          studentClass: studentClass.value,
+          avaliation: avaliation.value,
+          gender: gender.value,
           weight: weight.value,
-          estatura: estatura.value
+          envergadura: envergadura.value,
+          saltoH: saltoH.value,
+          saltoV: saltoV.value,
+          corrida: corrida.value,
+          quadrado4x4: quadrado4x4.value,
+          arremesso: arremesso.value,
+          caminhada: caminhada.value,
+          estatura: estatura.value,
+          IMC: IMC.value
+        }).then(async () => {
+
+          alert('Dados Salvos!');
+          this.router.navigate(['header/antropometria']);
+
         });
         break;
 

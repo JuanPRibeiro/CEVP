@@ -69,8 +69,7 @@
 
       <div>
         <p>Data da 1ª avaliação</p>
-        <input type="date" name="birthdate" id="birthdate"
-          value="{{student.birthdate.getFullYear()}}-{{df.returnData(student.birthdate.getMonth()+1)}}-{{df.returnData(student.birthdate.getDate())}}">
+        <input type="date" name="avaliation1" id="avaliation1" value="{{student.avaliation1}}">
       </div>
     </div>
 
@@ -102,7 +101,7 @@
 
       <div>
         <p>Envergadura</p>
-        <input type="text" name="parent" id="parent" value="{{student.parent}}">
+        <input type="text" name="envergadura" id="envergadura" value="{{student.envergadura}}">
       </div>
 
       <div>
@@ -114,37 +113,34 @@
     <div class="line">
       <div>
         <p>Salto horizontal</p>
-        <select name="schoolId" id="schoolId">
-          <option *ngFor="let school of schools" value="{{school.id}}" [selected]="school.id == student.schoolId">
-            {{school.name}}</option>
-        </select>
+        <input type="text" name="saltoH" id="saltoH" value="{{student.saltoH}}">
       </div>
 
       <div>
         <p>Salto vertical</p>
-        <input type="text" name="contact" id="contact" value="{{student.contact}}">
+        <input type="text" name="saltoV" id="saltoV" value="{{student.saltoV}}">
       </div>
 
       <div>
         <p>Corrida de 20m (s)</p>
-        <input type="text" name="contact" id="contact" value="{{student.contact}}">
+        <input type="text" name="corrida" id="corrida" value="{{student.corrida}}">
       </div>
     </div>  
       
     <div class="line">
       <div>
         <p>Quadrado de 4x4 metros (s)</p>
-        <input type="text" name="contact" id="contact" value="{{student.contact}}">
+        <input type="text" name="quadrado4x4" id="quadrado4x4" value="{{student.quadrado4x4}}">
       </div>
 
       <div>
         <p>Arremesso de medicine ball de 2kg (cm)</p>
-        <input type="text" name="contact" id="contact" value="{{student.contact}}">
+        <input type="text" name="arremesso" id="arremesso" value="{{student.arremesso}}">
       </div>
 
       <div>
         <p>Corrida/caminhada de 6 minutos (m)</p>
-        <input type="text" name="contact" id="contact" value="{{student.contact}}">
+        <input type="text" name="caminhada" id="caminhada" value="{{student.caminhada}}">
       </div>
     </div>  
 

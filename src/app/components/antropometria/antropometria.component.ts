@@ -84,21 +84,18 @@ export class AntropometriaComponent implements OnInit {
           id: doc.id,
           activated: doc.data()['activated'],
           avaliation: doc.data()['avaliation1'].toDate(),
-          authorization: doc.data()['authorization'],
-          birthdate: new Date(doc.data()['birthdate'].toDate()),
           class: doc.data()['class'],
-          contact: doc.data()['contact'],
-          contactInclued: doc.data()['contactInclued'],
-          deactivationReason: doc.data()['deactivationReason'],
           gender: doc.data()['gender'],
-          module: this.getStudentModule(doc.data()['birthdate'].toDate()),
           name: doc.data()['name'],
           weight: doc.data()['weight'],
           estatura: doc.data()['estatura'],
-          responsibleTCLE: doc.data()['responsibleTCLE'],
-          schoolId: doc.data()['schoolId'],
-          studentTCLE: doc.data()['studentTCLE'],
-          tale: doc.data()['tale']
+          envergadura: doc.data()['envergadura'],
+          saltoH: doc.data()['saltoH'],
+          saltoV: doc.data()['saltoV'],
+          corrida: doc.data()['corrida'],
+          quadrado4x4: doc.data()['quadrado4x4'],
+          arremesso: doc.data()['arremesso'],
+          caminhada: doc.data()['caminhada'],
         });
       });
       return this.students;
