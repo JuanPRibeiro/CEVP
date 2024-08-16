@@ -37,7 +37,7 @@ export class AntropometriaComponent implements OnInit {
     const activated = document.querySelector('#activated') as HTMLSelectElement;
 
     this.students = activated.value == "true" ? await this.studentService.getAllStudents() : await this.studentService.getAllStudents(false);
-  }
+ }
 
   async getSchools() {
     this.schools = [];

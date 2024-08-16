@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { addDoc, collection, doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, getFirestore, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
 import { FirebaseStorage, getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -13,9 +13,11 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class studentAComponent implements OnInit {
 
+  protected antropometrias: any;
+
   private db = getFirestore();
   private storage: FirebaseStorage = getStorage();
-  
+
   private authorization: boolean = false;
   private responsibleTCLE: boolean = false;
   private studentTCLE: boolean = false;
@@ -53,79 +55,32 @@ export class studentAComponent implements OnInit {
 
     this.student.birthdate = new Date(this.student.birthdate);
 
-    //Files
-    if(this.student.authorization){
-      this.authorization = true;
-      getDownloadURL(ref(this.storage, `authorizations/Autorizacao_${this.student.name}`)).then((url) => {
-        this.authorizationUrl = url;
-      })
-    }
-    if(this.student.responsibleTCLE){
-      this.responsibleTCLE = true;
-      getDownloadURL(ref(this.storage, `TCLEs/TCLE_Responsavel_${this.student.name}`)).then((url) => {
-        this.responsibleTCLEUrl = url;
-      })
-    }
-    if(this.student.studentTCLE){
-      this.studentTCLE = true;
-      getDownloadURL(ref(this.storage, `TCLEs/TCLE_Participante_${this.student.name}`)).then((url) => {
-        this.studentTCLEUrl = url;
-      })
-    }
-    if(this.student.tale){
-      this.TALE = true;
-      getDownloadURL(ref(this.storage, `TALEs/TALE_${this.student.name}`)).then((url) => {
-        this.taleUrl = url;
-      })
-    }
-
     //Front-end
     const sidebarCheck = document.querySelector("#check") as HTMLInputElement;
     let screenWidth = window.innerWidth;
 
-    if(screenWidth >= 800) sidebarCheck.checked = true;
+    if (screenWidth >= 800) sidebarCheck.checked = true;
+
+    this.getAntropometrias()
   }
 
-  onAuthorizationFileChanged(event: any): void {
-    this.selectedAuthorizationFile = event.target.files[0];
-    if(this.selectedAuthorizationFile) this.authorization = true;
-  }
+  async getAntropometrias() {    
+    const q = query(
+      collection(this.db, 'antropometrias'),
+      where('studentId', '==', this.student.id)
+    );
 
-  onResponsibleTCLEFileChanged(event: any): void {
-    this.selectedResponsibleTCLEFile = event.target.files[0];
-    if(this.selectedResponsibleTCLEFile) this.responsibleTCLE = true;
+    await getDocs(q).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+       this.antropometrias = doc.data()
+      })
+    })
+    console.log(this.antropometrias)
   }
-
-  onStudentTCLEFileChanged(event: any): void {
-    this.selectedStudentTCLEFile = event.target.files[0];
-    if(this.selectedStudentTCLEFile) this.studentTCLE = true;
-  }
-
-  onTALEFileChanged(event: any): void {
-    this.selectedTALEFile = event.target.files[0];
-    if(this.selectedTALEFile) this.TALE = true;
-  }
-
-  onViewAuthorizationFile() {
-    window.open(this.authorizationUrl, '_blank');
-  }
-
-  onViewResponsibleTCLEFile() {
-    window.open(this.responsibleTCLEUrl, '_blank');
-  }
-
-  onViewStudentTCLEFile() {
-    window.open(this.studentTCLEUrl, '_blank');
-  }
-
-  onViewTALEFile() {
-    window.open(this.taleUrl, '_blank');
-  }
-
   
 
   async saveData() {
-    switch (this.selectedData) {
+        switch(this.selectedData) {
       case 'initialData':
         const studentClass = document.querySelector('#class') as HTMLSelectElement;
         const avaliation = document.querySelector('#avaliation1') as HTMLInputElement;
@@ -141,7 +96,7 @@ export class studentAComponent implements OnInit {
         const caminhada = document.querySelector('#caminhada') as HTMLInputElement;
         const IMC = document.querySelector('#IMC') as HTMLInputElement;
         const estatura = document.querySelector('#estatura') as HTMLInputElement;
-  
+
         //Passar os campos usados realmente no HTML para o await addDoc abaixo
 
         await addDoc(collection(this.db, 'antropometrias'), {
@@ -169,22 +124,22 @@ export class studentAComponent implements OnInit {
         break;
 
 
+      }
     }
-  }
 
-  calcIMC(weight, estatura): number{
-    return weight/estatura*2
-  }
+    calcIMC(weight, estatura): number{
+      return weight / estatura * 2
+    }
 
-  updateIMC(): void{
-    const IMC = document.querySelector('#IMC') as HTMLInputElement;
-    const weight = document.querySelector('#weight') as HTMLInputElement;
-    const estatura = document.querySelector('#estatura') as HTMLInputElement;
-    IMC.value = this.calcIMC(weight.value, estatura.value).toString()
-  }
+    updateIMC(): void {
+      const IMC = document.querySelector('#IMC') as HTMLInputElement;
+      const weight = document.querySelector('#weight') as HTMLInputElement;
+      const estatura = document.querySelector('#estatura') as HTMLInputElement;
+      IMC.value = this.calcIMC(weight.value, estatura.value).toString()
+    }
 
-  changeDetails() {
-    
-  }
+    changeDetails() {
 
-}
+    }
+
+  }

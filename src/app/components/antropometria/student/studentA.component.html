@@ -69,7 +69,7 @@
 
       <div>
         <p>Data da 1ª avaliação</p>
-        <input type="date" name="avaliation1" id="avaliation1" value="{{student.avaliation1}}">
+        <input type="date" name="avaliation1" id="avaliation1" value="{{antropometrias.avaliation}}">
       </div>
     </div>
 
@@ -89,58 +89,58 @@
 
       <div>
         <p>Peso</p>
-        <input type="weight" name="weight" id="weight" value="{{student.weight}}" (input)="updateIMC()">
+        <input type="weight" name="weight" id="weight" value="{{antropometrias.weight}}" (input)="updateIMC()">
       </div>
     </div>
 
     <div class="line">
       <div>
         <p>Estatura</p>
-        <input type="text" name="estatura" id="estatura" value="{{student.estatura}}" (input)="updateIMC()">
+        <input type="text" name="estatura" id="estatura" value="{{antropometrias.estatura}}" (input)="updateIMC()">
       </div>
 
       <div>
         <p>Envergadura</p>
-        <input type="text" name="envergadura" id="envergadura" value="{{student.envergadura}}">
+        <input type="text" name="envergadura" id="envergadura" value="{{antropometrias.envergadura}}">
       </div>
 
       <div>
         <p>IMC</p>
-        <input type="text" name="IMC" id="IMC" value="{{calcIMC(student.weight, student.estatura)}}" readonly>
+        <input type="text" name="IMC" id="IMC" value="{{calcIMC(antropometrias.weight, antropometrias.estatura)}}" readonly>
       </div>
     </div>
 
     <div class="line">
       <div>
         <p>Salto horizontal</p>
-        <input type="text" name="saltoH" id="saltoH" value="{{student.saltoH}}">
+        <input type="text" name="saltoH" id="saltoH" value="{{antropometrias.saltoH}}">
       </div>
 
       <div>
         <p>Salto vertical</p>
-        <input type="text" name="saltoV" id="saltoV" value="{{student.saltoV}}">
+        <input type="text" name="saltoV" id="saltoV" value="{{antropometrias.saltoV}}">
       </div>
 
       <div>
         <p>Corrida de 20m (s)</p>
-        <input type="text" name="corrida" id="corrida" value="{{student.corrida}}">
+        <input type="text" name="corrida" id="corrida" value="{{antropometrias.corrida}}">
       </div>
     </div>  
       
     <div class="line">
       <div>
         <p>Quadrado de 4x4 metros (s)</p>
-        <input type="text" name="quadrado4x4" id="quadrado4x4" value="{{student.quadrado4x4}}">
+        <input type="text" name="quadrado4x4" id="quadrado4x4" value="{{antropometrias.quadrado4x4}}">
       </div>
 
       <div>
         <p>Arremesso de medicine ball de 2kg (cm)</p>
-        <input type="text" name="arremesso" id="arremesso" value="{{student.arremesso}}">
+        <input type="text" name="arremesso" id="arremesso" value="{{antropometrias.arremesso}}">
       </div>
 
       <div>
         <p>Corrida/caminhada de 6 minutos (m)</p>
-        <input type="text" name="caminhada" id="caminhada" value="{{student.caminhada}}">
+        <input type="text" name="caminhada" id="caminhada" value="{{antropometrias.caminhada}}">
       </div>
     </div>  
 
