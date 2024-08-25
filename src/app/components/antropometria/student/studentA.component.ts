@@ -89,13 +89,15 @@ export class studentAComponent implements OnInit {
         const weight = document.querySelector('#weight') as HTMLInputElement;
         const envergadura = document.querySelector('#envergadura') as HTMLInputElement;
         const saltoH = document.querySelector('#saltoH') as HTMLInputElement;
-        const saltoV = document.querySelector('#saltoV') as HTMLInputElement;
         const corrida = document.querySelector('#corrida') as HTMLInputElement;
         const quadrado4x4 = document.querySelector('#quadrado4x4') as HTMLInputElement;
         const arremesso = document.querySelector('#arremesso') as HTMLInputElement;
         const caminhada = document.querySelector('#caminhada') as HTMLInputElement;
         const IMC = document.querySelector('#IMC') as HTMLInputElement;
         const estatura = document.querySelector('#estatura') as HTMLInputElement;
+        const alcanceE = document.querySelector('#alcanceE') as HTMLInputElement;
+        const alcanceA = document.querySelector('#alcanceA') as HTMLInputElement;
+        const saltoV = document.querySelector('#saltoV') as HTMLInputElement
 
         //Passar os campos usados realmente no HTML para o await addDoc abaixo
 
@@ -108,13 +110,15 @@ export class studentAComponent implements OnInit {
           weight: weight.value,
           envergadura: envergadura.value,
           saltoH: saltoH.value,
-          saltoV: saltoV.value,
           corrida: corrida.value,
           quadrado4x4: quadrado4x4.value,
           arremesso: arremesso.value,
           caminhada: caminhada.value,
           estatura: estatura.value,
-          IMC: IMC.value
+          IMC: IMC.value,
+          alcanceE: alcanceE.value,
+          alcanceA: alcanceA.value,
+          saltoV: saltoV.value,
         }).then(async () => {
 
           alert('Dados Salvos!');
@@ -128,7 +132,7 @@ export class studentAComponent implements OnInit {
     }
 
     calcIMC(weight, estatura): number{
-      return weight / estatura * 2
+      return weight / (estatura * estatura)
     }
 
     updateIMC(): void {
@@ -136,6 +140,17 @@ export class studentAComponent implements OnInit {
       const weight = document.querySelector('#weight') as HTMLInputElement;
       const estatura = document.querySelector('#estatura') as HTMLInputElement;
       IMC.value = this.calcIMC(weight.value, estatura.value).toString()
+    }
+
+    calcSaltoV(alcanceE, alcanceA): number{
+      return alcanceA - alcanceE
+    }
+
+    updateSaltoV(): void {
+      const saltoV = document.querySelector('#saltoV') as HTMLInputElement;
+      const alcanceA = document.querySelector('#alcanceA') as HTMLInputElement;
+      const alcanceE = document.querySelector('#alcanceE') as HTMLInputElement;
+      saltoV.value = this.calcSaltoV(alcanceA.value, alcanceE.value).toString()
     }
 
     changeDetails() {

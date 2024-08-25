@@ -91,11 +91,12 @@ export class AntropometriaComponent implements OnInit {
           estatura: doc.data()['estatura'],
           envergadura: doc.data()['envergadura'],
           saltoH: doc.data()['saltoH'],
-          saltoV: doc.data()['saltoV'],
           corrida: doc.data()['corrida'],
           quadrado4x4: doc.data()['quadrado4x4'],
           arremesso: doc.data()['arremesso'],
           caminhada: doc.data()['caminhada'],
+          alcanceE: doc.data()['alcanceE'],
+          alcanceA: doc.data()['alcanceA']
         });
       });
       return this.students;

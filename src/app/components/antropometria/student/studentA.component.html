@@ -88,7 +88,7 @@
       </div>
 
       <div>
-        <p>Peso</p>
+        <p>Massa Corporal</p>
         <input type="weight" name="weight" id="weight" value="{{antropometrias.weight}}" (input)="updateIMC()">
       </div>
     </div>
@@ -117,17 +117,30 @@
       </div>
 
       <div>
-        <p>Salto vertical</p>
-        <input type="text" name="saltoV" id="saltoV" value="{{antropometrias.saltoV}}">
+        <p>Alcance Estático (cm)</p>
+        <input type="text" name="alcanceE" id="alcanceE" value="{{antropometrias.alcanceE}}">
       </div>
+
+      <div>
+        <p>Alcance Após o Salto (cm)</p>
+        <input type="text" name="alcanceA" id="alcanceA" value="{{antropometrias.alcanceA}}">
+      </div>
+
+      <div>
+        <p>Salto vertical (cm)</p>
+        <input type="text" name="saltoV" id="saltoV" value="{{calcSaltoV(antropometrias.alcanceA, antropometrias.alcanceE)}}" readonly>
+      </div>
+
+      
+    </div>  
+      
+    <div class="line">
 
       <div>
         <p>Corrida de 20m (s)</p>
         <input type="text" name="corrida" id="corrida" value="{{antropometrias.corrida}}">
       </div>
-    </div>  
-      
-    <div class="line">
+
       <div>
         <p>Quadrado de 4x4 metros (s)</p>
         <input type="text" name="quadrado4x4" id="quadrado4x4" value="{{antropometrias.quadrado4x4}}">
