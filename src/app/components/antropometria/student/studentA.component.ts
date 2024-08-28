@@ -118,7 +118,7 @@ export class studentAComponent implements OnInit {
           IMC: IMC.value,
           alcanceE: alcanceE.value,
           alcanceA: alcanceA.value,
-          saltoV: saltoV.value,
+          saltoV: saltoV.value
         }).then(async () => {
 
           alert('Dados Salvos!');
@@ -132,18 +132,18 @@ export class studentAComponent implements OnInit {
     }
 
     calcIMC(weight, estatura): number{
-      return weight / (estatura * estatura)
+      return round(weight / (estatura * estatura))
     }
 
     updateIMC(): void {
       const IMC = document.querySelector('#IMC') as HTMLInputElement;
       const weight = document.querySelector('#weight') as HTMLInputElement;
       const estatura = document.querySelector('#estatura') as HTMLInputElement;
-      IMC.value = this.calcIMC(weight.value, estatura.value).toString()
+      IMC.value = this.calcIMC(weight.value, estatura.value).toString();
     }
 
     calcSaltoV(alcanceE, alcanceA): number{
-      return alcanceA - alcanceE
+      return alcanceE - alcanceA
     }
 
     updateSaltoV(): void {
@@ -158,3 +158,7 @@ export class studentAComponent implements OnInit {
     }
 
   }
+function round(arg0: number): number {
+  throw new Error('Function not implemented.');
+}
+
