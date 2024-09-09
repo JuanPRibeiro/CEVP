@@ -84,6 +84,7 @@ export class studentAComponent implements OnInit {
       case 'initialData':
         const studentClass = document.querySelector('#class') as HTMLSelectElement;
         const avaliation = document.querySelector('#avaliation1') as HTMLInputElement;
+        const age = document.querySelector('#avaliation1') as HTMLInputElement;
         const gender = document.querySelector('#gender') as HTMLSelectElement;
         const name = document.querySelector('#name') as HTMLInputElement;
         const weight = document.querySelector('#weight') as HTMLInputElement;
@@ -104,6 +105,7 @@ export class studentAComponent implements OnInit {
         await addDoc(collection(this.db, 'antropometrias'), {
           studentId: this.student.id,
           name: name.value,
+          age: age.value,
           studentClass: studentClass.value,
           avaliation: avaliation.value,
           gender: gender.value,
@@ -132,7 +134,7 @@ export class studentAComponent implements OnInit {
     }
 
     calcIMC(weight, estatura): number{
-      return round(weight / (estatura * estatura))
+      return Math.ceil((weight / (estatura * estatura)))
     }
 
     updateIMC(): void {
@@ -143,7 +145,7 @@ export class studentAComponent implements OnInit {
     }
 
     calcSaltoV(alcanceE, alcanceA): number{
-      return alcanceE - alcanceA
+      return (alcanceE - alcanceA)
     }
 
     updateSaltoV(): void {
@@ -153,12 +155,67 @@ export class studentAComponent implements OnInit {
       saltoV.value = this.calcSaltoV(alcanceA.value, alcanceE.value).toString()
     }
 
+    classificarSaltoHorizontal(gender, age, saltoV): string {
+      if (gender === "Feminino") {
+        if (age === 10) {
+          if (saltoV < 117.7) return "Fraco";
+          if (saltoV <= 129.2) return "Razoavel";
+          if (saltoV <= 143.3) return "Bom";
+          if (saltoV <= 174) return "Muito Bom";
+          if (saltoV >= 174.1) return "Excelente";
+        } else if (age === 11) {
+          if (saltoV < 123.9) return "Fraco";
+          if (saltoV <= 135.8) return "Razoavel";
+          if (saltoV <= 150.3) return "Bom";
+          if (saltoV <= 181.7) return "Muito Bom";
+          if (saltoV >= 181.8) return "Excelente";
+        } else if (age === 12) {
+          if (saltoV < 128) return "Fraco";
+          if (saltoV <= 140.3) return "Razoavel";
+          if (saltoV <= 155.3) return "Bom";
+          if (saltoV <= 187.6) return "Muito Bom";
+          if (saltoV >= 187.7) return "Excelente";
+        } else if (age === 13) {
+          if (saltoV < 130.8) return "Fraco";
+          if (saltoV <= 143.7) return "Razoavel";
+          if (saltoV <= 159.3) return "Bom";
+          if (saltoV <= 193) return "Muito Bom";
+          if (saltoV >= 193.1) return "Excelente";
+        } else if (age === 14) {
+          if (saltoV < 132) return "Fraco";
+          if (saltoV <= 145.6) return "Razoavel";
+          if (saltoV <= 161.9) return "Bom";
+          if (saltoV <= 197.3) return "Muito Bom";
+          if (saltoV >= 197.4) return "Excelente";
+        } else if (age === 15) {
+          if (saltoV < 131.8) return "Fraco";
+          if (saltoV <= 146.2) return "Razoavel";
+          if (saltoV <= 163.5) return "Bom";
+          if (saltoV <= 200.7) return "Muito Bom";
+          if (saltoV >= 200.8) return "Excelente";
+        } else if (age === 16) {
+          if (saltoV < 131.2) return "Fraco";
+          if (saltoV <= 146.2) return "Razoavel";
+          if (saltoV <= 164.3) return "Bom";
+          if (saltoV <= 203.2) return "Muito Bom";
+          if (saltoV >= 203.3) return "Excelente";
+        } else if (age >= 17) {
+          if (saltoV < 130.5) return "Fraco";
+          if (saltoV <= 146.2) return "Razoavel";
+          if (saltoV <= 165.1) return "Bom";
+          if (saltoV <= 205.6) return "Muito Bom";
+          if (saltoV >= 205.7) return "Excelente";
+        }
+      } else if (gender === "Masculino") {
+        return "Masculino";
+      }
+      return "Erro";
+    }
+
+
     changeDetails() {
 
     }
 
   }
-function round(arg0: number): number {
-  throw new Error('Function not implemented.');
-}
 

@@ -209,6 +209,7 @@ export class StudentComponent implements OnInit {
       {
         Nome: this.student.name,
         DataDeNascimento: this.student.birthdate.toLocaleDateString(),
+        Turma: this.student.class,
         Contato: this.student.contact,
         Gênero: this.student.gender,
         PaiOuResponsável: this.student.parent,
@@ -235,6 +236,7 @@ export class StudentComponent implements OnInit {
     const studentData = studentsList.map(student => ({
       Nome: student.name,
       DataDeNascimento: new Date(student.birthdate.seconds * 1000).toLocaleDateString(), // Converte timestamp para data
+      Turma: this.student.class,
       Contato: student.contact,
       Gênero: student.gender,
       PaiOuResponsável: student.parent,
