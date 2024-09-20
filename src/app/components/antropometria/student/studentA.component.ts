@@ -5,6 +5,7 @@ import { addDoc, collection, doc, getDocs, getFirestore, orderBy, query, updateD
 import * as DateFormat from 'src/app/shared/functions/dateFormat'
 import { FirebaseStorage, getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { StudentService } from 'src/app/shared/services/student.service';
 
 @Component({
   selector: 'app-studentA',
@@ -84,7 +85,6 @@ export class studentAComponent implements OnInit {
       case 'initialData':
         const studentClass = document.querySelector('#class') as HTMLSelectElement;
         const avaliation = document.querySelector('#avaliation1') as HTMLInputElement;
-        const age = document.querySelector('#avaliation1') as HTMLInputElement;
         const gender = document.querySelector('#gender') as HTMLSelectElement;
         const name = document.querySelector('#name') as HTMLInputElement;
         const weight = document.querySelector('#weight') as HTMLInputElement;
@@ -105,7 +105,6 @@ export class studentAComponent implements OnInit {
         await addDoc(collection(this.db, 'antropometrias'), {
           studentId: this.student.id,
           name: name.value,
-          age: age.value,
           studentClass: studentClass.value,
           avaliation: avaliation.value,
           gender: gender.value,
@@ -145,55 +144,59 @@ export class studentAComponent implements OnInit {
     }
 
     calcSaltoV(alcanceE, alcanceA): number{
-      return (alcanceE - alcanceA)
+      return (alcanceA - alcanceE)
     }
 
     updateSaltoV(): void {
       const saltoV = document.querySelector('#saltoV') as HTMLInputElement;
       const alcanceA = document.querySelector('#alcanceA') as HTMLInputElement;
       const alcanceE = document.querySelector('#alcanceE') as HTMLInputElement;
-      saltoV.value = this.calcSaltoV(alcanceA.value, alcanceE.value).toString()
+      const gender = document.querySelector('#gender') as HTMLInputElement;
+      const age = document.querySelector('#age') as HTMLInputElement;
+      saltoV.value = this.calcSaltoV(alcanceA.value, alcanceE.value).toString();
+      const classificacao = document.querySelector('#classificarSaltoHorizontal') as HTMLParagraphElement;
+      classificacao.textContent = this.classificarSaltoHorizontal(gender.value, age.value, saltoV.value);
     }
 
     classificarSaltoHorizontal(gender, age, saltoV): string {
       if (gender === "Feminino") {
-        if (age === 10) {
+        if (age == 10) {
           if (saltoV < 117.7) return "Fraco";
           if (saltoV <= 129.2) return "Razoavel";
           if (saltoV <= 143.3) return "Bom";
           if (saltoV <= 174) return "Muito Bom";
           if (saltoV >= 174.1) return "Excelente";
-        } else if (age === 11) {
+        } else if (age == 11) {
           if (saltoV < 123.9) return "Fraco";
           if (saltoV <= 135.8) return "Razoavel";
           if (saltoV <= 150.3) return "Bom";
           if (saltoV <= 181.7) return "Muito Bom";
           if (saltoV >= 181.8) return "Excelente";
-        } else if (age === 12) {
+        } else if (age == 12) {
           if (saltoV < 128) return "Fraco";
           if (saltoV <= 140.3) return "Razoavel";
           if (saltoV <= 155.3) return "Bom";
           if (saltoV <= 187.6) return "Muito Bom";
           if (saltoV >= 187.7) return "Excelente";
-        } else if (age === 13) {
+        } else if (age == 13) {
           if (saltoV < 130.8) return "Fraco";
           if (saltoV <= 143.7) return "Razoavel";
           if (saltoV <= 159.3) return "Bom";
           if (saltoV <= 193) return "Muito Bom";
           if (saltoV >= 193.1) return "Excelente";
-        } else if (age === 14) {
+        } else if (age == 14) {
           if (saltoV < 132) return "Fraco";
           if (saltoV <= 145.6) return "Razoavel";
           if (saltoV <= 161.9) return "Bom";
           if (saltoV <= 197.3) return "Muito Bom";
           if (saltoV >= 197.4) return "Excelente";
-        } else if (age === 15) {
+        } else if (age == 15) {
           if (saltoV < 131.8) return "Fraco";
           if (saltoV <= 146.2) return "Razoavel";
           if (saltoV <= 163.5) return "Bom";
           if (saltoV <= 200.7) return "Muito Bom";
           if (saltoV >= 200.8) return "Excelente";
-        } else if (age === 16) {
+        } else if (age == 16) {
           if (saltoV < 131.2) return "Fraco";
           if (saltoV <= 146.2) return "Razoavel";
           if (saltoV <= 164.3) return "Bom";

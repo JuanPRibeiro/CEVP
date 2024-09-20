@@ -69,7 +69,7 @@
 
       <div>
         <p>Data da 1ª avaliação</p>
-        <input type="date" name="avaliation1" id="avaliation1" value="{{antropometrias.avaliation}}">
+        <input type="date" name="avaliation1" id="avaliation1" value="{{antropometrias != undefined ? antropometrias.avaliation : '' }}">
       </div>
     </div>
 
@@ -89,46 +89,51 @@
 
       <div>
         <p>Massa Corporal (kg)</p>
-        <input type="weight" name="weight" id="weight" value="{{antropometrias.weight}}" (input)="updateIMC()">
+        <input type="weight" name="weight" id="weight" value="{{antropometrias != undefined ? antropometrias.weight : 0 }}" (input)="updateIMC()">
       </div>
     </div>
 
     <div class="line">
       <div>
         <p>Estatura (m)</p>
-        <input type="text" name="estatura" id="estatura" value="{{antropometrias.estatura}}" (input)="updateIMC()">
+        <input type="text" name="estatura" id="estatura" value="{{antropometrias != undefined ? antropometrias.estatura : 0 }}" (input)="updateIMC()">
       </div>
 
       <div>
         <p>Envergadura (cm)</p>
-        <input type="text" name="envergadura" id="envergadura" value="{{antropometrias.envergadura}}">
+        <input type="text" name="envergadura" id="envergadura" value="{{antropometrias != undefined ? antropometrias.envergadura : 0 }}">
       </div>
 
       <div>
         <p>IMC</p>
-        <input type="text" name="IMC" id="IMC" value="{{calcIMC(antropometrias.weight, antropometrias.estatura)}}" readonly>
+        <input type="text" name="IMC" id="IMC" readonly>
       </div>
     </div>
 
     <div class="line">
       <div>
         <p>Salto horizontal</p>
-        <input type="text" name="saltoH" id="saltoH" value="{{antropometrias.saltoH}}">
+        <input type="text" name="saltoH" id="saltoH" value="{{antropometrias != undefined ? antropometrias.saltoH : 0 }}">
       </div>
 
       <div>
         <p>Alcance Estático (cm)</p>
-        <input type="text" name="alcanceE" id="alcanceE" value="{{antropometrias.alcanceE}}">
+        <input type="text" name="alcanceE" id="alcanceE" (input)="updateSaltoV()">
       </div>
 
       <div>
         <p>Alcance Após o Salto (cm)</p>
-        <input type="text" name="alcanceA" id="alcanceA" value="{{antropometrias.alcanceA}}">
+        <input type="text" name="alcanceA" id="alcanceA" (input)="updateSaltoV()">
       </div>
 
       <div>
         <p>Salto vertical (cm)</p>
-        <input type="text" name="saltoV" id="saltoV" value="{{calcSaltoV(antropometrias.alcanceA, antropometrias.alcanceE)}}" readonly>
+        <input type="text" name="saltoV" id="saltoV"  readonly>
+        
+      </div>
+
+      <div>
+      <p id="classificarSaltoHorizontal"></p>
         
       </div>
 
@@ -139,22 +144,22 @@
 
       <div>
         <p>Corrida de 20m (s)</p>
-        <input type="text" name="corrida" id="corrida" value="{{antropometrias.corrida}}">
+        <input type="text" name="corrida" id="corrida" value="{{antropometrias != undefined ? antropometrias.corrida : 0 }}">
       </div>
 
       <div>
         <p>Quadrado de 4x4 metros (s)</p>
-        <input type="text" name="quadrado4x4" id="quadrado4x4" value="{{antropometrias.quadrado4x4}}">
+        <input type="text" name="quadrado4x4" id="quadrado4x4" value="{{antropometrias != undefined ? antropometrias.quadrado4x4 : 0 }}">
       </div>
 
       <div>
         <p>Arremesso de medicine ball de 2kg (cm)</p>
-        <input type="text" name="arremesso" id="arremesso" value="{{antropometrias.arremesso}}">
+        <input type="text" name="arremesso" id="arremesso" value="{{antropometrias != undefined ? antropometrias.arremesso : 0 }}">
       </div>
 
       <div>
         <p>Corrida/caminhada de 6 minutos (m)</p>
-        <input type="text" name="caminhada" id="caminhada" value="{{antropometrias.caminhada}}">
+        <input type="text" name="caminhada" id="caminhada" value="{{antropometrias != undefined ? antropometrias.caminhada : 0 }}">
       </div>
     </div>  
 
