@@ -11,7 +11,7 @@
   <ul>
     <li><a href="header/students">Participantes</a></li>
     <li><a href="header/frequency">Frequências</a></li>
-    <li><a href="#">Antropometrias</a></li>
+    <li><a href="#">Capacidade Física e Antropometria</a></li>
     <li><a href="#">Desempenho TT</a></li>
     <li><a href="#">Hab. Socioedu.</a></li>
   </ul>
@@ -19,38 +19,6 @@
 
 <!--Main content-->
 <section>
-  <div class="details">
-    <div>
-      <input type="radio" name="details" id="initialData" (change)="changeDetails()" hidden>
-      <label for="initialData" class="selector" [class.selectedData]="selectedData=='initialData'">
-        <b>Dados Iniciais</b>
-      </label>
-    </div>
-    <div>
-      <input type="radio" name="details" id="frequency" (change)="changeDetails()" hidden>
-      <label for="frequency" class="selector" [class.selectedData]="selectedData=='frequency'">
-        <b>Frequência</b>
-      </label>
-    </div>
-    <div>
-      <input type="radio" name="details" id="anthropometries" (change)="changeDetails()" hidden>
-      <label for="anthropometries" class="selector" [class.selectedData]="selectedData=='anthropometries'">
-        <b>Antropometrias</b>
-      </label>
-    </div>
-    <div>
-      <input type="radio" name="details" id="ttPerformance" (change)="changeDetails()" hidden>
-      <label for="ttPerformance" class="selector" [class.selectedData]="selectedData=='ttPerformance'">
-        <b>Desempenho TT</b>
-      </label>
-    </div>
-    <div>
-      <input type="radio" name="details" id="lifeSkills" (change)="changeDetails()" hidden>
-      <label for="lifeSkills" class="selector" [class.selectedData]="selectedData=='lifeSkills'">
-        <b>Hab. Sociais</b>
-      </label>
-    </div>
-  </div>
 
   <div class="selectedDetails">
     <div class="line">
